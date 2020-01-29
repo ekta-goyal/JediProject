@@ -1,0 +1,7 @@
+Flask-SQLAlchemy
+sqlalchemy_utils
+mysqlclient
+flask-migrate
+flask-marshmallow
+marshmallow-sqlalchemy
+flask-script
