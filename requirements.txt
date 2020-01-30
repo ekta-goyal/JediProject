@@ -5,3 +5,5 @@ flask-migrate
 flask-marshmallow
 marshmallow-sqlalchemy
 flask-script
+flask-admin
+flask-login

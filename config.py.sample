@@ -1,9 +1,0 @@
-_database_type = ''
-_database_name = ''
-_host = ''
-_port = -1
-_username = ''
-_password = ''
-
-SQLALCHEMY_DATABASE_URI = f'{_database_type}://{_username}:{_password}@{_host}:{_port}/{_database_name}'
-SQLALCHEMY_TRACK_MODIFICATIONS = False
