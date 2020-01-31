@@ -1,5 +1,6 @@
 from flask import Flask
 
+
 def create_app(config_name=None, **kwargs):
     """
     Entry point to the Flask RESTful Server application.
@@ -24,4 +25,5 @@ def create_app(config_name=None, **kwargs):
     init_db(app)
     init_login_manager(app)
     admin.init_app(app)
+    print(app.url_map)
     return app

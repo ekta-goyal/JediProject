@@ -14,5 +14,5 @@ from flask_login import UserMixin
 
 class Base:
     deleted_at = db.Column(db.DateTime,default=None)
-    created_at = db.Column(db.DateTime,server_default= func.now())
+    created_at = db.Column(db.DateTime,server_default=func.now())
     modified = db.Column(db.DateTime,onupdate=func.now())

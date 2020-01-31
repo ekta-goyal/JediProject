@@ -40,7 +40,7 @@ class User(db.Model,base.Base,UserMixin):
 
 
 @login_manager.user_loader
-def load_admin(user_id):
+def load_user(user_id):
     return User.query.get(user_id)
 
 

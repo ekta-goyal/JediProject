@@ -1,0 +1,44 @@
+{% extends 'admin/master.html' %}
+
+{% block title %}
+Admin | Login
+{% endblock title%}
+
+{% block head_css %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/main-admin.css') }}" rel="stylesheet">
+{% endblock head_css %}
+
+{% block body %}
+{% if current_user.is_authenticated %}
+ 
+  <div class="logo">
+    <a>Hi<br>{{ current_user.name }}!</a>
+  </div>
+{% else %}
+    <center>
+    <form method="post" action="{{ url_for('admin_html_blueprint.admin_login') }}">
+        <input type="text" name="username"/>
+        <input type="password" name="password"/>
+        <input type="submit" />
+    </form>
+    <p style="color: brown;">{{error}}</p>
+    </center>
+{% endif %}
+{% endblock body %}
+
+{% block access_control %}
+<ul class="nav navbar-nav navbar-right">
+
+    {% if current_user.is_authenticated %}
+        <li>
+            <a href="{{ url_for('admin_html_blueprint.admin_logout') }}">Logout</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{ url_for('admin.index') }}">Login</a>
+        </li>
+    {% endif %}
+
+</ul>
+{% endblock access_control %}
