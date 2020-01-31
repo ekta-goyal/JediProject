@@ -6,7 +6,7 @@ Admin | Login
 
 {% block head_css %}
 {% set bootswatch_theme = 'flatly' %}
-<!--<link href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.5/{{bootswatch_theme}}/bootstrap.min.css" rel="stylesheet" >-->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.5/{{bootswatch_theme}}/bootstrap.min.css" rel="stylesheet" >
 
 {{ super() }}
 <link href="{{ url_for('static', filename='css/main-admin.css') }}" rel="stylesheet">
