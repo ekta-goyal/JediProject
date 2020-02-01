@@ -4,6 +4,7 @@ from sqlalchemy_utils import ChoiceType
 from app.database import db, event
 from app.loginmanager import login_manager
 from app.workforceapp.models import base
+from marshmallow import Schema, fields
 
 class User(db.Model,base.Base,UserMixin):
     __tablename__ = 'User'
@@ -64,8 +65,12 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
+class UserSchema(Schema):
+    id = fields.Integer()
+    name = fields.String()
+    username = fields.Email()
+    is_verified = fields.Integer()
+    created_at = fields.DateTime()
+    modified = fields.DateTime()
 
-
-
-
-
+    

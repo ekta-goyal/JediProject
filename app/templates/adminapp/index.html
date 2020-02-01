@@ -4,6 +4,15 @@
 Admin | Login
 {% endblock title%}
 
+{% block brand %}
+<div class="navbar-brand">
+<svg height="90" width="200">
+    <text x="10" y="20" style="font-family: 'megrim';fill:red;">
+      Task Manager
+    </text>
+  </svg>
+</div>
+{% endblock brand %}
 {% block body %}
 {% if current_user.is_authenticated %}
  

@@ -31,6 +31,7 @@ def admin_logout():
 
 extra_css = [
         'https://stackpath.bootstrapcdn.com/bootswatch/3.3.5/flatly/bootstrap.min.css',
+        "https://fonts.googleapis.com/css?family=Megrim&display=swap",
         '/static/css/main-admin.css'
 ]
 
