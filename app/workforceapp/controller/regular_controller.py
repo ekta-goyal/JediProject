@@ -16,7 +16,7 @@ def admin_login():
     try:
         login_user(user)
     except AttributeError:
-        return jsonify(schema.data), HTTPStatus.UNAUTHORIZED
+        return jsonify(schema), HTTPStatus.UNAUTHORIZED
     else:
         return jsonify(schema.data), HTTPStatus.OK
 
