@@ -5,9 +5,10 @@ _port = <DBPORT>
 _username = <DBUUSERNAME>
 _password = <DBPASSWORD>
 
-# URI : 'mysql://UiMqjofMZs:jotF0yQvTt@remotemysql.com:3306/UiMqjofMZs'
 SQLALCHEMY_DATABASE_URI = f'{_database_type}://{_username}:{_password}@{_host}:{_port}/{_database_name}'
-SQLALCHEMY_TRACK_MODIFICATIONS = <IS_MODIFICATIONS_ALLOWED>
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_POOL_RECYCLE = 500
+SQLALCHEMY_DATABASE_RESET = False
 
-FLASK_ADMIN_SWATCH = <WHAT SWATCH>
+FLASK_ADMIN_SWATCH = 'Flatly'
 SECRET_KEY = <SOME SECRET KEY>
