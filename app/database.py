@@ -9,7 +9,7 @@ def init_db(app):
         db.init_app(app)
         from pprint import pprint
         pprint(app.config)
-        if app.config.get('SQLALCHEMY_DATABASE_RESET', None):
+        if app.config.get('SQLALCHEMY_DATABASE_RESET', False):
             print("Deleating Database")
             db.reflect()
             db.drop_all()
