@@ -6,8 +6,9 @@ def create_app(config_name=None, **kwargs):
     Entry point to the Flask RESTful Server application.
     """
     from app.database import init_db
-
     from app.loginmanager import init_login_manager
+    from app.crypt import init_crypt
+
     from app.workforceapp.controller import regular_api_blueprint, regular_html_blueprint
     from app.workforceapp.controller import admin_html_blueprint, admin
 
@@ -24,6 +25,7 @@ def create_app(config_name=None, **kwargs):
 
     init_db(app)
     init_login_manager(app)
+    init_crypt(app)
     admin.init_app(app)
     print(app.url_map)
     return app

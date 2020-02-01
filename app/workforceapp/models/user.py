@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from sqlalchemy_utils import ChoiceType
 
-from app.database import db
+from app.database import db, event
 from app.loginmanager import login_manager
 from app.workforceapp.models import base
 
@@ -12,7 +12,11 @@ class User(db.Model,base.Base,UserMixin):
         (u'regular-user', (u'Regular user'))
     ]
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False,
+                         index=True
+                         )
+    
     # password = db.Column(
     #     PasswordType(
     #         # The returned dictionary is forwarded to the CryptContext
@@ -24,20 +28,36 @@ class User(db.Model,base.Base,UserMixin):
     #     unique=False,
     #     nullable=False,
     # )
-    password = db.Column(db.String(100))
-    type = db.Column(ChoiceType(USER_TYPES))
+    password = db.Column(db.String(128))
+    type = db.Column(ChoiceType(USER_TYPES, impl=db.String(12)), default='regular-user')
     # type = db.Column(db.String(100))
     is_verified = db.Column(db.Integer,default=0)
     contact = db.Column(db.String(20))
 
 
-    def __init__(self, name, password, type,is_verified,contact):
-        self.name = name
-        self.password = password
-        self.type = type
-        self.is_verified = is_verified
-        self.contact = contact
-
+@event.listens_for(User.__table__, 'after_create')
+def insert_initial_values(*args, **kwargs):
+    print("Adding Default values")
+    db.session.add(User(
+        name='Nitheesh Chandra',
+        username="Nitheesh",
+        password="nith@123",
+        type='admin'
+    ))
+    db.session.add(User(
+        name='Vishaka Shah',
+        username="Vishaka",
+        password="vish@123",
+        type='admin'
+    ))
+    db.session.add(User(
+        name='Ekta Goyal',
+        username="Ekta",
+        password="ekta@123",
+        type='admin'
+    ))
+    db.session.commit()
+    print("Added default values")
 
 @login_manager.user_loader
 def load_user(user_id):

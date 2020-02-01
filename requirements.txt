@@ -7,4 +7,5 @@ marshmallow-sqlalchemy
 flask-script
 flask-admin
 flask-login
+flask-bcrypt
 gunicorn==19.9.0

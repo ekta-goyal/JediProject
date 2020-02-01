@@ -14,7 +14,7 @@ admin_html_blueprint = Blueprint('admin_html_blueprint', __name__)
 def admin_login():
     username = request.form["username"]
     password = request.form["password"]
-    user = User.query.filter_by(name=username, password=password).first()
+    user = User.query.filter_by(username=username, password=password).first()
     try:
         login_user(user)
     except AttributeError:
