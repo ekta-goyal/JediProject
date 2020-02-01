@@ -18,7 +18,7 @@ def admin_login():
     except AttributeError:
         return jsonify(schema), HTTPStatus.UNAUTHORIZED
     else:
-        return jsonify(schema.data), HTTPStatus.OK
+        return jsonify(schema), HTTPStatus.OK
 
 
 @regular_api_blueprint.route('/accounts/logout', methods=['GET'])
