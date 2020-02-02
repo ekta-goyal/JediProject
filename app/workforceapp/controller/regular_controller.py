@@ -16,7 +16,7 @@ def admin_login():
     if user:
         if user.is_correct_password(password):
             login_user(user)
-            validated_data, errors = UserSchema().dump(user)
+            validated_data = UserSchema().dump(user)
             return jsonify(validated_data), HTTPStatus.OK
         errors = {"error": "Password invalid"}
     else:
