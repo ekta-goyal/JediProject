@@ -12,14 +12,15 @@ def admin_login():
     username = request.form["username"]
     password = request.form["password"]
     user = User.query.filter_by(username=username, type='regular-user', is_verified=1).first()
-    validated_data, errors = UserSchema().dump(user)
+    
     if user:
         if user.is_correct_password(password):
             login_user(user)
+            validated_data, errors = UserSchema().dump(user)
             return jsonify(validated_data), HTTPStatus.OK
-        errors.update({"error": "Password invalid"})
+        errors = {"error": "Password invalid"}
     else:
-        errors.update({"error": "Username invalid"})
+        errors = {"error": "Username invalid"}
     return jsonify(errors), HTTPStatus.UNAUTHORIZED
 
 
