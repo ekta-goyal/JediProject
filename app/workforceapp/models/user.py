@@ -121,7 +121,7 @@ class UserSchema(Schema):
     modified = fields.DateTime()
 
     uri = fields.Method("get_item_uri")
-
+    
     def get_item_uri(self, obj):
 
         return f'/api/v1/user/{obj.id}/'

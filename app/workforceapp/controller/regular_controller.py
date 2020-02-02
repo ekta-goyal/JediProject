@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, jsonify, render_template, current_app, Blueprint
 from http import HTTPStatus
 from flask_login import logout_user, login_user
-from app.workforceapp.models import User, UserSchema
+from app.workforceapp.models import User, UserSchema, Team, TeamSchema
 
 regular_html_blueprint = Blueprint('regular_html_blueprint', __name__)
 regular_api_blueprint = Blueprint('regular_api_blueprint', __name__)
@@ -28,3 +28,10 @@ def admin_login():
 def admin_logout():
     logout_user()
     return '', HTTPStatus.NO_CONTENT
+
+
+@regular_api_blueprint.route('/user/<id>/teams', methods=['GET'])
+def get_teams(id):
+    user = Team.query.all()
+    validated_data = TeamSchema(many=True).dump(user)
+    return jsonify(validated_data), HTTPStatus.OK

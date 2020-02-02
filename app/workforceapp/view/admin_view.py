@@ -1,4 +1,4 @@
-from flask_admin import AdminIndexView
+from flask_admin import AdminIndexView, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from app.workforceapp.models import User
@@ -39,3 +39,8 @@ class AdministratorModelView(ModelView):
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('admin_login'))
+
+class AddTeamView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('adminapp/notify.html')

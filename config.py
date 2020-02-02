@@ -9,6 +9,8 @@ try:
         SQLALCHEMY_DATABASE_RESET = bool(os.environ.get('SQLALCHEMY_DATABASE_RESET', False))
 
         FLASK_ADMIN_SWATCH = os.environ.get('FLASK_ADMIN_SWATCH', 'Flatly')
+
+        BCRYPT_LOG_ROUNDS = int(os.environ['BCRYPT_LOG_ROUNDS'])
 except KeyError:
     try:
         print("Local config")
