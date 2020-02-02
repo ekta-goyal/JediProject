@@ -26,7 +26,7 @@ Admin | Login
         <input type="password" name="password"/>
         <input type="submit" />
     </form>
-    <p style="color: brown;">{{error}}</p>
+    <p style="color: brown;">{{request.args.get('error')}}</p>
     </center>
 {% endif %}
 {% endblock body %}

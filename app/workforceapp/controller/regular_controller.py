@@ -11,14 +11,16 @@ regular_api_blueprint = Blueprint('regular_api_blueprint', __name__)
 def admin_login():
     username = request.form["username"]
     password = request.form["password"]
-    user = User.query.filter_by(username=username, password=password).first()
-    schema = UserSchema().dump(user)
-    try:
-        login_user(user)
-    except AttributeError:
-        return jsonify(schema), HTTPStatus.UNAUTHORIZED
+    user = User.query.filter_by(username=username, type='regular-user', is_verified=1).first()
+    validated_data, errors = UserSchema().dump(user)
+    if user:
+        if user.is_correct_password(password):
+            login_user(user)
+            return jsonify(validated_data), HTTPStatus.OK
+        errors.update({"error": "Password invalid"})
     else:
-        return jsonify(schema), HTTPStatus.OK
+        errors.update({"error": "Username invalid"})
+    return jsonify(errors), HTTPStatus.UNAUTHORIZED
 
 
 @regular_api_blueprint.route('/accounts/logout', methods=['GET'])

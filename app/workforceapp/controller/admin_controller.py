@@ -14,13 +14,12 @@ admin_html_blueprint = Blueprint('admin_html_blueprint', __name__)
 def admin_login():
     username = request.form["username"]
     password = request.form["password"]
-    user = User.query.filter_by(username=username, password=password).first()
-    try:
+    user = User.query.filter_by(username=username, type='admin').first()
+    if user and user.is_correct_password(password):
         login_user(user)
-    except AttributeError:
-        return redirect(url_for('admin.index', error="No records found"))
-    else:
         return redirect(url_for('admin.index'))
+    else:
+        return redirect(url_for('admin.index', error="No records found"))
 
 
 @admin_html_blueprint.route('/logout', methods=['GET'])
