@@ -31,7 +31,7 @@ def create_app(config_name=None, **kwargs):
     init_admin(app)
     print(app.url_map)
 
-    SAMPLE_DATA = True
+    SAMPLE_DATA = False
     if SAMPLE_DATA:
         add_data(app)
 
