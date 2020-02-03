@@ -64,3 +64,13 @@ def get_user_teams(user_id=None):
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
+
+@api_blueprint.route('/team/<int:team_id>/users/', methods=['GET'])
+@login_required
+def get_team_users(team_id=None):
+    if team_id:
+        team = Team.query.filter_by(id=team_id).first_or_404()
+        data = UserSchema(many=True).dump(team.members)
+        return jsonify(data), HTTPStatus.OK
+    else:
+        return '', HTTPStatus.BAD_REQUEST
