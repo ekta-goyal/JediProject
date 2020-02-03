@@ -15,7 +15,7 @@ def admin_login():
     if user:
         if user.is_correct_password(password):
             login_user(user)
-            data, errors = UserSchema().dump(user)
+            data = UserSchema().dump(user)
             return jsonify(data), HTTPStatus.OK
         errors = {"error": "Password invalid"}
     else:
@@ -36,10 +36,10 @@ def admin_logout():
 def get_user(id=None):
     if id:
         user = User.query.filter_by(id=id, type='regular-user', is_verified=1).first_or_404()
-        data, errors = UserSchema().dump(user)
+        data = UserSchema().dump(user)
     else:
         users = User.query.filter_by(type='regular-user', is_verified=1).all()
-        data, errors = UserSchema(many=True).dump(users)
+        data = UserSchema(many=True).dump(users)
     return jsonify(data), HTTPStatus.OK
 
 @api_blueprint.route('/teams/', methods=['GET'])
@@ -48,10 +48,10 @@ def get_user(id=None):
 def get_team(id=None):
     if id:
         team = Team.query.filter_by(id=id).first_or_404()
-        data, errors = TeamSchema().dump(team)
+        data = TeamSchema().dump(team)
     else:
         teams = Team.query.all()
-        data, errors = TeamSchema(many=True).dump(teams)
+        data = TeamSchema(many=True).dump(teams)
     return jsonify(data), HTTPStatus.OK
 
 
@@ -60,7 +60,7 @@ def get_team(id=None):
 def get_user_teams(user_id=None):
     if user_id:
         user = User.query.filter_by(id=user_id, type='regular-user', is_verified=1).first_or_404()
-        data, errors = TeamSchema(many=True).dump(user.teams)
+        data = TeamSchema(many=True).dump(user.teams)
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
