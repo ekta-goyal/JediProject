@@ -28,4 +28,8 @@ def create_app(config_name=None, **kwargs):
     init_crypt(app)
     admin.init_app(app)
     print(app.url_map)
+    
+    from flask_cors import CORS
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+    
     return app

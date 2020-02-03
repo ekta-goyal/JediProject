@@ -8,4 +8,5 @@ flask-script
 flask-admin
 flask-login
 flask-bcrypt
+flask-cors
 gunicorn==19.9.0

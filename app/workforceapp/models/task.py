@@ -4,6 +4,7 @@ from app.workforceapp.models import base_task
 
 from app.database import db
 from sqlalchemy.orm import relationship, backref
+from marshmallow import Schema, fields, post_load, validates, ValidationError
 
 class Task(db.Model,base_task.BaseTask):
     __tablename__ = "Task"
@@ -36,15 +37,15 @@ class Task(db.Model,base_task.BaseTask):
         innerjoin=True
     )
 
-    # User_reporter = relationship("User", backref="User_reporter", foreign_keys="User.reporter")
-    # User_assignee = relationship("User", backref="User_assigned", foreign_keys="User.assignee")
-    def __init__(self,title,description,start_date,expected_end_date,actual_end_date,status,priority,reporter,assignee):
-        self.title = title
-        self.description = description
-        self.start_date = start_date
-        self.expected_end_date = expected_end_date
-        self.actual_end_date = actual_end_date
-        self.status = status
-        self.priority = priority
-        self.reporter = reporter
-        self.assignee = assignee
+
+class TaskSchema(Schema):
+    id = fields.Integer()
+    name = fields.String()
+    description = fields.String()
+    created_at = fields.DateTime()
+    modified = fields.DateTime()
+    
+    uri = fields.Method("get_item_uri")
+    
+    def get_item_uri(self, obj):
+        return f'/api/v1/team/{obj.id}/'
