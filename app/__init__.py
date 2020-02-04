@@ -29,16 +29,20 @@ def create_app(config_name=None, **kwargs):
     init_login_manager(app)
     init_crypt(app)
     init_admin(app)
+    
+    from flask_cors import CORS
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+    
     print(app.url_map)
 
-    SAMPLE_DATA = False
+    SAMPLE_DATA = True
     if SAMPLE_DATA:
         add_data(app)
 
     return app
 
 def add_data(app):
-    from models import User, Team
+    from models import User, Team, Task
     from app.database import db
     print("Inserting Sample Data")
     with app.app_context():
@@ -121,7 +125,22 @@ def add_data(app):
         u2.teams.append(t2)
         db.session.commit()
 
-        from models import UserSchema, TeamSchema
+        from sqlalchemy.sql import func
+        task1 = Task(
+            title = "Task1@Team1",
+            description = "Some random text",
+            start_date = '2020-01-25',
+            expected_end_date = '2020-02-10',
+            task_status = 'TODO',
+            priority = 'medium'
+
+        )
+        task1.team = t1
+        task1.reporter = u2
+        task1.assignee = u1
+        db.session.add_all([task1])
+        db.session.commit()
+        from models import UserSchema, TeamSchema, TaskSchema
         from pprint import pprint
         import json
         pprint(json.loads(jsonify(UserSchema().dump(u2)).data))
@@ -129,3 +148,5 @@ def add_data(app):
         pprint(json.loads(jsonify(UserSchema().dump(u3)).data))
         print('NEW'.center(50,'-'))
         pprint(json.loads(jsonify(UserSchema(many=True).dump(t2.members)).data))
+        print('Task'.center(50,'-'))
+        pprint(json.loads(jsonify(TaskSchema().dump(task1)).data))

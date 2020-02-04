@@ -56,7 +56,9 @@ class UserSchema(Schema):
     username = fields.Email()
     is_verified = fields.Integer()
     created_at = fields.DateTime()
-    modified = fields.DateTime()
+    modified_at = fields.DateTime()
+    contact = fields.String()
+    designation = fields.String()
 
     teams = fields.List(fields.Nested("TeamSchema",exclude=("members",)))
 
