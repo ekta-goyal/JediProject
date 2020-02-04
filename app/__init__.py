@@ -22,7 +22,7 @@ def create_app(config_name=None, **kwargs):
 
     # app.register_blueprint(regular_api_blueprint, url_prefix='/api/v1/')
     # app.register_blueprint(regular_html_blueprint, url_prefix='/')
-    app.register_blueprint(admin_html_blueprint, subdomain ='admin')#url_prefix='/admin/')
+    app.register_blueprint(admin_html_blueprint, url_prefix='/admin/')
     app.register_blueprint(api_blueprint, url_prefix='/api/v1/')
 
     init_db(app)
