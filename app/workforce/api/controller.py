@@ -19,8 +19,9 @@ def get_data(obj, schema, request=None, many=False):
         else:
             data = schema(many=many, unknown=INCLUDE).dump(obj)
         return data
-    except:
-        return ''
+    except Exception as e:
+        print(e)
+        return 'error'
 
 
 @api_blueprint.route('/accounts/login', methods=['POST'])
@@ -33,7 +34,7 @@ def admin_login():
         if user.is_correct_password(password):
             login_user(user)
             data = get_data(user, UserSchema, request=request, many=False)
-            if data:
+            if data != 'error':
                 return jsonify(data), HTTPStatus.OK
             else:
                 return '', HTTPStatus.BAD_REQUEST
@@ -60,12 +61,12 @@ def get_user(id=None):
     else:
         users = User.query.filter_by(type='regular-user', is_verified=1).all()
         data = get_data(users, UserSchema, request=request, many=True)
-    if data:
+    if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
 
-@api_blueprint.route('/teams/', methods=['GET'])
+@api_blueprint.route('/teams', methods=['GET'])
 @api_blueprint.route('/team/<int:id>', methods=['GET'])
 @login_required
 def get_team(id=None):
@@ -75,38 +76,44 @@ def get_team(id=None):
     else:
         teams = Team.query.all()
         data = get_data(teams, TeamSchema, request=request, many=True)
-    if data:
+    if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
 
 
-@api_blueprint.route('/user/<int:user_id>/teams/', methods=['GET'])
+@api_blueprint.route('/user/<int:user_id>/teams', methods=['GET'])
 @login_required
 def get_user_teams(user_id):
     user = User.query.filter_by(id=user_id, type='regular-user', is_verified=1).first_or_404()
     data = get_data(user.teams, TeamSchema, request=request, many=True)
-    if data:
+    if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
 
-@api_blueprint.route('/team/<int:team_id>/users/', methods=['GET'])
+@api_blueprint.route('/team/<int:team_id>/users', methods=['GET'])
 @login_required
 def get_team_users(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
     data = get_data(team.users, UserSchema, request=request, many=True)
-    if data:
+    if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
 
-@api_blueprint.route('/team/<int:team_id>/tasks/', methods=['GET'])
+@api_blueprint.route('/team/<int:team_id>/tasks', methods=['GET'])
 @login_required
 def get_team_tasks(team_id):
-    team = Team.query.filter_by(id=team_id).first_or_404()
-    data = get_data(team.tasks, TaskSchema, request=request, many=True)
-    if data:
+    status = request.args.get('status', '')
+    if status:
+        tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).all()
+        data = get_data(tasks, TaskSchema, request=request, many=True)
+        print(data)
+    else:
+        team = Team.query.filter_by(id=team_id).first_or_404()
+        data = get_data(team.tasks, TaskSchema, request=request, many=True)
+    if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
