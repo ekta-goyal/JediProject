@@ -9,7 +9,7 @@ class TeamView(ModelView, ExtraCss, TimeManager):
     column_labels = dict(name='Name')
     column_searchable_list = ('name', 'description')
 
-    form_excluded_columns = TimeManager.form_excluded_columns
+    form_excluded_columns = ('tasks',) + TimeManager.form_excluded_columns
 
     column_list = ['id', 'name', 'description', 'created_at', 'modified_at']
         

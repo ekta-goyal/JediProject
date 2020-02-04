@@ -6,12 +6,12 @@ from wtforms.validators import DataRequired
 from .util import TimeManager, ExtraCss
 
 class UserView(ModelView, ExtraCss, TimeManager):
-    column_exclude_list = ('password')
+    column_exclude_list = ('password',)
     column_labels = dict(name='Name', username="Username(email)")
     column_searchable_list = ('name',)
     column_filters = ('type',) 
 
-    form_excluded_columns = ('is_verified', 'password') + TimeManager.form_excluded_columns
+    form_excluded_columns = ('as_assignee','as_reporter', 'teams', 'is_verified', 'password') + TimeManager.form_excluded_columns
     
     column_list = ['id', 'name', 'username', 'created_at', 'modified_at']
 
