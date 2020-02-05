@@ -1,0 +1,1 @@
+from .controller import html_blueprint

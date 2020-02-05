@@ -11,6 +11,7 @@ def create_app(config_name=None, **kwargs):
     from app.admin        import init_admin
 
     from app.workforce.api import api_blueprint
+    from app.workforce.web import html_blueprint
     from app.admin.controller import admin_html_blueprint
 
     app = Flask(__name__, **kwargs)
@@ -22,8 +23,9 @@ def create_app(config_name=None, **kwargs):
 
     # app.register_blueprint(regular_api_blueprint, url_prefix='/api/v1/')
     # app.register_blueprint(regular_html_blueprint, url_prefix='/')
-    app.register_blueprint(admin_html_blueprint, url_prefix='/admin/')
     app.register_blueprint(api_blueprint, url_prefix='/api/v1/')
+    app.register_blueprint(admin_html_blueprint, url_prefix='/admin/')
+    app.register_blueprint(html_blueprint, url_prefix='/')
 
     init_db(app)
     init_login_manager(app)
@@ -35,7 +37,8 @@ def create_app(config_name=None, **kwargs):
     
     print(app.url_map)
 
-    SAMPLE_DATA = False
+    print("Database Reset:", app.config['SQLALCHEMY_DATABASE_RESET'])
+    SAMPLE_DATA = app.config['SQLALCHEMY_DATABASE_RESET']
     if SAMPLE_DATA:
         add_data(app)
 
