@@ -9,4 +9,5 @@ flask-admin
 flask-login
 flask-bcrypt
 flask-cors
+Flask-Mail
 gunicorn==19.9.0

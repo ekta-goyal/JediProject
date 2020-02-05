@@ -4,6 +4,7 @@ from flask_login import current_user
 from wtforms.validators import DataRequired
 
 from .util import TimeManager, ExtraCss
+from flask_admin.form import SecureForm
 
 class TeamView(ModelView, ExtraCss, TimeManager):
     column_labels = dict(name='Name')
@@ -17,6 +18,8 @@ class TeamView(ModelView, ExtraCss, TimeManager):
         name = dict(label='Name', validators=[DataRequired()]),
         description = dict(label='Description', validators=[DataRequired()])
     )
+
+    form_base_class = SecureForm
 
     def is_accessible(self):
         return current_user.is_authenticated

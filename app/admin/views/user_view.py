@@ -4,6 +4,7 @@ from flask_login import current_user
 from wtforms.validators import DataRequired
 
 from .util import TimeManager, ExtraCss
+from flask_admin.form import SecureForm
 
 class UserView(ModelView, ExtraCss, TimeManager):
     column_exclude_list = ('password',)
@@ -15,6 +16,8 @@ class UserView(ModelView, ExtraCss, TimeManager):
     
     column_list = ['id', 'name', 'username', 'created_at', 'modified_at']
 
+    form_base_class = SecureForm
+    
     form_args = dict(
         name=dict(label='Name', validators=[DataRequired()]),
         type=dict(label='User Type', validators=[DataRequired()])

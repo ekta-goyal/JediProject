@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, jsonify, render_template, current_app, Blueprint, flash
 from http import HTTPStatus
-from flask_login import logout_user, login_user, login_required
+from flask_login import logout_user, login_user, login_required, current_user
 
 from models import User, UserSchema, Team, TeamSchema, Task, TaskSchema
 from marshmallow import INCLUDE
@@ -106,10 +106,13 @@ def get_team_users(team_id):
 @login_required
 def get_team_tasks(team_id):
     status = request.args.get('status', '')
-    if status:
+    if status in ["my"]:
+        id = current_user.get_id()
+        tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).all()
+        data = get_data(tasks, TaskSchema, request=request, many=True)
+    elif status:
         tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).all()
         data = get_data(tasks, TaskSchema, request=request, many=True)
-        print(data)
     else:
         team = Team.query.filter_by(id=team_id).first_or_404()
         data = get_data(team.tasks, TaskSchema, request=request, many=True)
