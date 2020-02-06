@@ -9,10 +9,15 @@ def create_app(config_name=None, **kwargs):
     from app.loginmanager import init_login_manager
     from app.crypt        import init_crypt
     from app.admin        import init_admin
+    from app.mail         import init_mail
 
     from app.workforce.api import api_blueprint
     from app.workforce.web import html_blueprint
-    from app.admin.controller import admin_html_blueprint
+    from app.workforce.verify import verify_blueprint
+    from app.admin import admin_html_blueprint
+    
+    import sentry_sdk
+    from sentry_sdk.integrations.flask import FlaskIntegration
 
     app = Flask(__name__, **kwargs)
 
@@ -21,16 +26,21 @@ def create_app(config_name=None, **kwargs):
     except ImportError:
         raise Exception('Invalid Config')
 
-    # app.register_blueprint(regular_api_blueprint, url_prefix='/api/v1/')
-    # app.register_blueprint(regular_html_blueprint, url_prefix='/')
     app.register_blueprint(api_blueprint, url_prefix='/api/v1/')
     app.register_blueprint(admin_html_blueprint, url_prefix='/admin/')
+    app.register_blueprint(verify_blueprint, url_prefix='/verify')
     app.register_blueprint(html_blueprint, url_prefix='/')
 
     init_db(app)
     init_login_manager(app)
     init_crypt(app)
+    init_mail(app)
     init_admin(app)
+
+    sentry_sdk.init(
+        dsn=app.config['SENTRY_DSN'],
+        integrations=[FlaskIntegration()]
+    )
     
     from flask_cors import CORS
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -76,21 +86,21 @@ def add_data(app):
                 username="user1@test.com",
                 password="password",
                 type='regular-user',
-                is_verified=1
+                is_verified=True
             ),
             User(
                 name='User2',
                 username="user2@test.com",
                 password="password",
                 type='regular-user',
-                is_verified=1
+                is_verified=True
             ),
             User(
                 name='User3',
                 username="user3@test.com",
                 password="password",
                 type='regular-user',
-                is_verified=0
+                is_verified=False
             )
         )
 
@@ -130,7 +140,7 @@ def add_data(app):
 
         from sqlalchemy.sql import func
         task1 = Task(
-            title = "Task1@Team1",
+            title = "Task1",
             description = "Some random text",
             start_date = '2020-01-25',
             expected_end_date = '2020-02-10',
@@ -141,15 +151,66 @@ def add_data(app):
         task1.team = t1
         task1.reporter = u2
         task1.assignee = u1
-        db.session.add_all([task1])
+        task4 = Task(
+            title = "Task4",
+            description = "Some random text",
+            start_date = '2020-01-25',
+            expected_end_date = '2020-02-10',
+            task_status = 'TODO',
+            priority = 'medium'
+
+        )
+        task4.team = t1
+        task4.reporter = u2
+        task4.assignee = u1
+
+        task2 = Task(
+            title = "Task2",
+            description = "Some more random text",
+            start_date = '2020-01-25',
+            expected_end_date = '2020-02-10',
+            task_status = 'DOING',
+            priority = 'high'
+
+        )
+        task2.team = t1
+        task2.reporter = u1
+        task2.assignee = u2
+        task5 = Task(
+            title = "Task5",
+            description = "Some random text",
+            start_date = '2020-01-25',
+            expected_end_date = '2020-02-10',
+            task_status = 'TODO',
+            priority = 'medium'
+
+        )
+        task5.team = t1
+        task5.reporter = u1
+        task5.assignee = u2
+
+        task3 = Task(
+            title = "Task3",
+            description = "for Team3",
+            start_date = '2020-01-25',
+            expected_end_date = '2020-02-10',
+            task_status = 'DONE',
+            priority = 'low'
+
+        )
+        task3.team = t1
+        task3.reporter = u2
+        task3.assignee = u1
+
+        db.session.add_all([task1, task2, task3, task4, task5])
         db.session.commit()
         from models import UserSchema, TeamSchema, TaskSchema
         from pprint import pprint
         import json
-        pprint(json.loads(jsonify(UserSchema().dump(u2)).data))
-        pprint(json.loads(jsonify(UserSchema().dump(u1)).data))
-        pprint(json.loads(jsonify(UserSchema().dump(u3)).data))
-        print('NEW'.center(50,'-'))
-        pprint(json.loads(jsonify(UserSchema(many=True).dump(t2.members)).data))
-        print('Task'.center(50,'-'))
-        pprint(json.loads(jsonify(TaskSchema().dump(task1)).data))
+        # pprint(json.loads(jsonify(UserSchema().dump(u2)).data))
+        # pprint(json.loads(jsonify(UserSchema().dump(u1)).data))
+        # pprint(json.loads(jsonify(UserSchema().dump(u3)).data))
+        # print('NEW'.center(50,'-'))
+        # pprint(json.loads(jsonify(UserSchema(many=True).dump(t2.members)).data))
+        # print('Task'.center(50,'-'))
+        # pprint(json.loads(jsonify(TaskSchema().dump(task1)).data))

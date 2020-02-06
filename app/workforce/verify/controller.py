@@ -1,37 +1,39 @@
 from flask import request, redirect, url_for, render_template, Blueprint
 from itsdangerous import SignatureExpired, BadTimeSignature
 from http import HTTPStatus
+from models import User
+from app.database import db
 
-html_blueprint = Blueprint('html_blueprint', __name__, template_folder='templates')
+verify_blueprint = Blueprint('verify_blueprint', __name__, template_folder='templates')
 
-@html_blueprint.route('/', methods=['GET'])
-def index():
-    user = {'username': 'Nitheesh'}
-    return render_template('home.html', title='Home', user=user)
-
-@html_blueprint.route('/debug-sentry')
-def trigger_error():
-    division_by_zero = 1 / 0
-
-@html_blueprint.route('/verify/email/<token>')
+@verify_blueprint.route('/email/<token>')
 def confirm_email(token): 
     from app.crypt import get_token_data
     try:
         email = get_token_data(token, salt="user-create", max_age=3600)
+        user = User.query.filter_by(username=email).first()
+
+        if user.is_verified:
+            return 'Already Validated'
+        else:
+            user.is_verified = True
+            db.session.commit()
     except SignatureExpired:
         return 'Token Expired'
     except BadTimeSignature:
         return 'Invalid Token'
     return f'Tokens Works {email}'
 
-@html_blueprint.route('/verify/team/<token>')
+@verify_blueprint.route('/team/<token>')
 def confirm_team(token): 
     from app.crypt import get_token_data
     try:
         payload = get_token_data(token, salt="team-user", max_age=3600)
-        team, user = payload.split(',')
+        team_id, user_id = payload.split(',')
+        team_id, user_id = int(team_id), int(user_id)
+        db.engine.execute(f'UPDATE User_Team_Mapping SET is_verified = true WHERE team_id = {team_id} AND user_id = {user_id}')
     except SignatureExpired:
         return 'Token Expired'
     except BadTimeSignature:
         return 'Invalid Token'
-    return f'Tokens Works for {team} with {user}'
+    return f'Tokens Works'

@@ -21,7 +21,7 @@ class User(db.Model, UserMixin, At):
     _password = db.Column(db.Binary(60), name = "password")
     type = db.Column(ChoiceType(USER_TYPES, impl=db.String(12)), default='regular-user')
     designation = db.Column(db.String(100))
-    is_verified = db.Column(db.Integer,default=0)
+    is_verified = db.Column(db.Boolean,default=False)
     contact = db.Column(db.String(20))
 
     teams = db.relationship('Team', secondary=UsersTeamMapping, backref=db.backref('members', lazy='dynamic'))
@@ -32,6 +32,9 @@ class User(db.Model, UserMixin, At):
         del kwargs["password"]
         super(User, self).__init__(**kwargs)
     
+    def __str__(self):
+        return f"{self.name}, {self.username}"
+
     @hybrid_property
     def password(self):
         return self._password
@@ -54,7 +57,7 @@ class UserSchema(Schema):
     id = fields.Integer()
     name = fields.String()
     username = fields.Email()
-    is_verified = fields.Integer()
+    is_verified = fields.Boolean()
     created_at = fields.DateTime()
     modified_at = fields.DateTime()
     contact = fields.String()

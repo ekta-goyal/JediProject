@@ -23,22 +23,25 @@ def get_data(obj, schema, request=None, many=False):
         print(e)
         return 'error'
 
-
 @api_blueprint.route('/accounts/login', methods=['POST'])
 def admin_login():
     username = request.form["username"]
     password = request.form["password"]
-    user = User.query.filter_by(username=username, type='regular-user', is_verified=1).first()
+    user = User.query.filter_by(username=username, type='regular-user').first()
     
     if user:
-        if user.is_correct_password(password):
+        if not user.is_verified:
+            errors = {"error": "User Not Verified, Reregister from admin."}
+
+        elif user.is_correct_password(password):
             login_user(user)
             data = get_data(user, UserSchema, request=request, many=False)
             if data != 'error':
                 return jsonify(data), HTTPStatus.OK
             else:
                 return '', HTTPStatus.BAD_REQUEST
-        errors = {"error": "Password invalid"}
+        else:
+            errors = {"error": "Password invalid"}
     else:
         errors = {"error": "Username invalid"}
     return jsonify(errors), HTTPStatus.UNAUTHORIZED
