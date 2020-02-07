@@ -15,4 +15,7 @@ def index():
 
 @html_blueprint.route('/debug-sentry')
 def trigger_error():
-    division_by_zero = 1 / 0
+    try:
+        division_by_zero = 1 / 0
+    except:
+        print("Error")
