@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, Blueprint
 from flask_login import logout_user, login_user
 
 from models import User
-
+from .views import AdministratorIndexView, TeamView, AddTeamView, UserView
 admin_html_blueprint = Blueprint('admin_html_blueprint', __name__,
     template_folder='templates',
     #static_folder='static',
