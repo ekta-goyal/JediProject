@@ -1,3 +1,4 @@
+werkzeug==0.16.0
 Flask-SQLAlchemy==2.4.1
 sqlalchemy_utils
 mysqlclient==1.4.6
