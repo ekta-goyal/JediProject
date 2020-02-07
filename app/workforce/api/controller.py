@@ -5,6 +5,8 @@ from flask_login import logout_user, login_user, login_required, current_user
 from models import User, UserSchema, Team, TeamSchema, Task, TaskSchema
 from marshmallow import INCLUDE
 from app.database import db
+from sqlalchemy import desc
+from datetime import date
 # from models import select
 
 api_blueprint = Blueprint('api_blueprint', __name__)
@@ -136,6 +138,26 @@ def get_team_tasks(team_id):
     else:
         team = Team.query.filter_by(id=team_id).first_or_404()
         data = get_data(team.tasks, TaskSchema, request=request, many=True)
+    if data != 'error':
+        return jsonify(data), HTTPStatus.OK
+    else:
+        return '', HTTPStatus.BAD_REQUEST
+
+
+@api_blueprint.route('/tasks', methods=['GET'])
+@login_required
+def get_my_tasks():
+    status = request.args.get('status', '')
+    if status in ["end"]:
+        id = current_user.get_id()
+        tasks = Task.query.filter_by(assignee_id=id).filter(Task.expected_end_date >= date.today()).order_by(desc(Task.expected_end_date)).all()
+        data = get_data(tasks, TaskSchema, request=request, many=True)
+    elif status in ["start"]:
+        id = current_user.get_id()
+        tasks = Task.query.filter_by(assignee_id=id).filter(Task.start_date >= date.today()).order_by(desc(Task.start_date)).all()
+        data = get_data(tasks, TaskSchema, request=request, many=True)
+    else:
+        data = 'error'
     if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
