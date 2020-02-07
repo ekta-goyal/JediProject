@@ -6,7 +6,11 @@ from models import User
 
 from .views import AdministratorIndexView, UserView, TeamView, AddTeamView
 
-admin_html_blueprint = Blueprint('admin_html_blueprint', __name__, template_folder='templates')
+admin_html_blueprint = Blueprint('admin_html_blueprint', __name__,
+    template_folder='templates',
+    static_folder='static',
+    static_url_path='/view.static'
+    )
 
 
 @admin_html_blueprint.route('/login', methods=['POST'])

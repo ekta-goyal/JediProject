@@ -6,7 +6,7 @@ from app.database import db
 
 verify_blueprint = Blueprint('verify_blueprint', __name__, template_folder='templates')
 
-@verify_blueprint.route('/email/<token>')
+@verify_blueprint.route('/user/<token>')
 def confirm_email(token): 
     from app.crypt import get_token_data
     try:
