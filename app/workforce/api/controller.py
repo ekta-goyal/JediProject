@@ -4,6 +4,7 @@ from flask_login import logout_user, login_user, login_required, current_user
 
 from models import User, UserSchema, Team, TeamSchema, Task, TaskSchema
 from marshmallow import INCLUDE
+from app.database import db
 # from models import select
 
 api_blueprint = Blueprint('api_blueprint', __name__)
@@ -24,7 +25,7 @@ def get_data(obj, schema, request=None, many=False):
         return 'error'
 
 @api_blueprint.route('/accounts/login', methods=['POST'])
-def admin_login():
+def login():
     username = request.form["username"]
     password = request.form["password"]
     user = User.query.filter_by(username=username, type='regular-user').first()
@@ -48,7 +49,7 @@ def admin_login():
 
 
 @api_blueprint.route('/accounts/logout', methods=['GET'])
-def admin_logout():
+def logout():
     logout_user()
     return '', HTTPStatus.NO_CONTENT
 
@@ -84,6 +85,22 @@ def get_team(id=None):
     else:
         return '', HTTPStatus.BAD_REQUEST
 
+@api_blueprint.route('/team/<int:team_id>/banner', methods=['GET'])
+@login_required
+def get_team_banner(team_id):
+    rs = db.engine.execute(f'SELECT * FROM User_Team_Mapping where user_id={current_user.id} AND team_id={team_id}')
+    print(rs)
+    for x in rs:
+        team_id, user_id, is_verified, color, index, link = x
+        break
+    return jsonify({
+        "team_id": team_id,
+        "user_id": user_id,
+        "is_verified": is_verified,
+        "color": color,
+        "index": index,
+        "link": link
+    }), HTTPStatus.OK
 
 @api_blueprint.route('/user/<int:user_id>/teams', methods=['GET'])
 @login_required
