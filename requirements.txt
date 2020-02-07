@@ -1,9 +1,9 @@
-Flask-SQLAlchemy
+Flask-SQLAlchemy==2.4.1
 sqlalchemy_utils
-mysqlclient
+mysqlclient==1.4.6
 flask-migrate
-flask-marshmallow
-marshmallow-sqlalchemy
+flask-marshmallow==0.10.1
+marshmallow-sqlalchemy==0.21.0
 flask-script
 flask-admin
 flask-login
@@ -11,4 +11,4 @@ flask-bcrypt
 flask-cors
 Flask-Mail
 sentry-sdk[flask]==0.14.1
-gunicorn
+gunicorn==20.0.4
