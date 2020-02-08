@@ -1,1 +1,121 @@
-/* No CSS *//*# sourceMappingURL=home.css.map */
+body {
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: minmax(200px, 0.2fr) 120px auto;
+      grid-template-columns: minmax(200px, 0.2fr) 120px auto;
+  -ms-grid-rows: minmax(100px, 0.1fr) auto minmax(100px, 0.1fr);
+      grid-template-rows: minmax(100px, 0.1fr) auto minmax(100px, 0.1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+#navbar {
+  max-height: 200px;
+  background-color: #96ceb4;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-area: 1 / 1 / 2 / 4;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#sidebar {
+  background-color: #ffeead;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+#team {
+  background-color: #ffcc5c;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 2 / 4 / 3;
+  overflow: auto;
+}
+
+#mainapp {
+  background-color: #88d8b0;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-area: 2 / 3 / 4 / 4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  justify-items: stretch;
+}
+
+#footer {
+  background-color: #ff6f69;
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-area: 3 / 1 / 4 / 2;
+}
+
+.each-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+}
+
+.each-item > div {
+  padding: 10px;
+}
+
+.team-img {
+  border-radius: 50%;
+}
+
+.team-details {
+  margin: 15px;
+  background-color: hotpink;
+}
+
+.task-board {
+  margin: 15px;
+  background-color: gold;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (auto)[3];
+      grid-template-columns: repeat(3, auto);
+  justify-items: center;
+}
+
+.task-board > div {
+  background-color: lemonchiffon;
+}
+
+.task-area {
+  overflow: auto;
+}
+/*# sourceMappingURL=home.css.map */

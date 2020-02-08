@@ -1,3 +1,68 @@
-body{
-    
+body { 
+    margin:0px;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(200px,0.2fr) 120px auto;
+    grid-template-rows: minmax(100px,0.1fr) auto minmax(100px,0.1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+#navbar { 
+    max-height: 200px;
+    background-color: #96ceb4;
+    grid-area: 1 / 1 / 2 / 4;
+  justify-content: center;
+} 
+#sidebar {
+    background-color: #ffeead;
+    grid-area: 2 / 1 / 3 / 2;
+} 
+#team {
+    background-color: #ffcc5c;
+    grid-area: 2 / 2 / 4 / 3;
+    overflow: auto;
+} 
+#mainapp {
+    background-color: #88d8b0;
+    grid-area: 2 / 3 / 4 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-items: stretch;
+} 
+#footer {
+    background-color: #ff6f69;
+    grid-area: 3 / 1 / 4 / 2;
+} 
+.each-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+.each-item > div {
+    padding: 10px;
+}
+.team-img {
+    border-radius: 50%;
+}
+
+.team-details {
+    margin: 15px;
+    background-color: hotpink;
+}
+.task-board {
+    margin: 15px;
+    background-color: gold;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-items: center;
+}
+.task-board > div {
+    background-color: lemonchiffon;
+}
+.task-area {
+    overflow: auto;
 }

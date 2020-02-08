@@ -2,10 +2,9 @@
 <html>
     <head>
         <title>Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('html_blueprint.static', filename='slick/slick.css')}}"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('html_blueprint.static', filename='slick/slick-theme.css') }}"/>
         <link rel="stylesheet" href="{{ url_for('html_blueprint.static', filename='css/home.css') }}">
-        <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
     </head>
   <body>
     <div id="navbar">
@@ -17,9 +16,57 @@
             <a href="">link4</a>
         </div>
     </div>
-    <div id="app"></div>
-
-    <script type="text/babel" src="{{ url_for('html_blueprint.static', filename='js/App.js') }}">
-    </script>
+    <div id="team">
+      <div class="each-item">
+        <div><a href="/page-1/"><img class="team-img" src="https://picsum.photos/100/100?random=1"/></a></div>
+        <div><a href="/page-2/"><img class="team-img" src="https://picsum.photos/100/100?random=2"/></a></div>
+        <div><a href="/page-3/"><img class="team-img" src="https://picsum.photos/100/100?random=3"/></a></div>
+        <div><a href="/page-4/"><img class="team-img" src="https://picsum.photos/100/100?random=4"/></a></div>
+        <div><a href="/page-5/"><img class="team-img" src="https://picsum.photos/100/100?random=5"/></a></div>
+        <div><a href="/page-6/"><img class="team-img" src="https://picsum.photos/100/100?random=6"/></a></div>
+        <div><a href="/page-7/"><img class="team-img" src="https://picsum.photos/100/100?random=7"/></a></div>
+        <div><a href="/page-8/"><img class="team-img" src="https://picsum.photos/100/100?random=8"/></a></div>
+        <div><a href="/page-9/"><img class="team-img" src="https://picsum.photos/100/100?random=9"/></a></div>
+      </div>
+    </div>
+    <div id="mainapp">
+      <div class="team-details">
+        <h1>Title</h1>
+        <p>Some Random Paragraph<br /> hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
+      </div>
+      <div class="task-board muuri">
+        <div class="swimlane muuri-item muuri-item-shown">
+          <div class="header">TODO</div>
+          <div class="task-area muuri">
+            <div class="task">Task1</div>
+            <div class="task">Task1</div>
+            <div class="task">Task1</div>
+            <div class="task">Task1</div>
+          </div>
+        </div>
+        <div class="swimlane muuri-item muuri-item-shown">
+          <div class="header">DOING</div>
+          <div class="task-area muuri">
+            <div class="task">Task1</div>
+            <div class="task">Task1</div>
+          </div>
+        </div>
+        <div class="swimlane muuri-item muuri-item-shown">
+          <div class="header">DONE</div>
+          <div class="task-area muuri">
+            <div class="task">Task1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer">
+      <h1>footer</h1>
+    </div>
   </body>
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('html_blueprint.static', filename='slick/slick.min.js') }}"></script>
+  <script src="https://haltu.github.io/muuri/scripts/vendor/muuri-0.8.0.js"></script>
+  <script src="{{ url_for('html_blueprint.static', filename='js/app.js') }}"></script>
 </html>
