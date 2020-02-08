@@ -46,6 +46,7 @@ class TaskSchema(Schema):
     reporter = fields.Nested("UserSchema",exclude=("teams","teams_count"))
     assignee = fields.Nested("UserSchema",exclude=("teams","teams_count"))
     team = fields.Nested("TeamSchema", exclude=("members","tasks"))
+    attachments = fields.Nested("AttachmentSchema")
     created_at = fields.DateTime()
     modified_by = fields.String()
     modified_at = fields.DateTime()

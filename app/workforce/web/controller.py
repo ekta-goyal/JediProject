@@ -1,7 +1,16 @@
+import os
+
 from flask import request, redirect, url_for, render_template, Blueprint
 from itsdangerous import SignatureExpired, BadTimeSignature
 from http import HTTPStatus
 from flask_login import login_required,current_user
+
+from .forms import AddTaskForm
+from models import Task, Attachments
+from app.database import db
+import datetime
+from flask import current_app
+from werkzeug.utils import secure_filename
 
 html_blueprint = Blueprint('html_blueprint', __name__,
     template_folder='templates',
@@ -28,3 +37,59 @@ def trigger_error():
         division_by_zero = 1 / 0
     except:
         print("Error")
+
+
+@html_blueprint.route('/addtask', methods = ['GET', 'POST'])
+@login_required
+def add_task():
+    # old picture
+    UPLOAD_FOLDER = 'uploads'
+    print("0000000000")
+    addtask = Task()
+    print("1111111111")
+    # form data - old picture
+    # form = AddTaskForm(obj=addtask)
+    form = AddTaskForm(request.form)
+    print("2222222222")
+    if request.method == 'POST':
+        print("21212121")
+        if form.validate_on_submit():
+            print("333333333")
+            #  update picture data
+            addtask.title = form.title.data
+            addtask.description = form.description.data
+            addtask.expected_end_date = form.expected_end_date.data
+            addtask.priority = form.priority.data
+            addtask.assignee = form.assignee.data
+            addtask.team = form.team.data
+            addtask.start_date =  datetime.datetime.now()
+            addtask.reporter_id = current_user.id
+            print("44444444")
+            if 'file' in request.files:
+                print("zzzzzzzzzzzz")
+                # breakpoint()
+                file = request.files['file']
+                if file:
+                    file_filenames = []
+                    for eachfile in list(request.files.listvalues())[0]:
+                        files_filenames = secure_filename(eachfile.filename)
+                        file.save(os.path.join(UPLOAD_FOLDER, files_filenames))
+                        print('File successfully uploaded')
+                        attachmentsObj = Attachments()
+                        attachmentsObj.name = files_filenames
+                        attachmentsObj.path = os.path.join(UPLOAD_FOLDER, files_filenames)
+                        addtask.attachments.append(attachmentsObj)
+                else:
+                    print('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
+                # return redirect(request.url)
+            else:
+                print("No attachments uploaded by user")
+            db.session.add(addtask)
+            db.session.commit()
+
+            return '', HTTPStatus.OK
+
+        return render_template('addtask.html', form=form, edit=True)
+    else:
+        print("999999")
+        return render_template('addtask.html', form=form, edit=True)

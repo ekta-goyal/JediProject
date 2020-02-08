@@ -1,0 +1,41 @@
+<div>
+
+      <form action = "{{url_for('html_blueprint.add_task')}}" method = "post" enctype="multipart/form-data">
+         <fieldset>
+            <legend>Add Task</legend>
+            {{ form.hidden_tag() }}
+
+            <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+               {{ form.title.label }}<br>
+               {{ form.title }}
+               <br>
+
+                {{ form.description.label }}</br>
+                {{ form.description }}
+                {{ form.expected_end_date.label }}<br>
+                {{ form.expected_end_date(class='datepicker') }}
+               <br>
+
+               {{ form.priority.label }}<br>
+               {{ form.priority }}
+               <br>
+
+               {{ form.assignee.label }}<br>
+               {{ form.assignee }}
+               <br>
+
+               {{ form.team.label }}<br>
+               {{ form.team }}
+               <br>
+
+{#                {{ form.attachments.label }}<br>#}
+{#               {{ form.attachments }}#}
+
+                <input type="file" multiple name="file">
+               <br>
+               {{ form.submit }}
+            </div>
+
+         </fieldset>
+      </form>
+</div>

@@ -4,3 +4,4 @@ from .user import User, UserSchema
 from .team import Team, TeamSchema
 from .task import Task, TaskSchema
 from flask_sqlalchemy import event
+from .attachments import Attachments, AttachmentSchema
