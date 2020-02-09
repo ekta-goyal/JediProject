@@ -35,7 +35,7 @@ class UserView(ModelView, ExtraCss, TimeManager):
             return False
 
     def inaccessible_callback(self, name, **kwargs):
-        if current_user.type == 'user':
+        if current_user and current_user.type == 'user':
             return redirect(url_for('html_blueprint.index'))
         return redirect(url_for('admin_html_blueprint.admin_login'))
 
