@@ -46,6 +46,6 @@ class TeamView(ModelView, ExtraCss, TimeManager):
             for member in model.members:
                 token = get_time_token(f"{model.id},{member.id}", salt="team-user")
                 body = token
-                html = render_template('team_invite.html', token=token, team = model.name)
+                html = render_template('team_invite.html', token=token, team = model.name, description=model.description)
                 send_async_email(current_app._get_current_object(),[member.username], subject, body, html)
             #Thread(target=send_async_email, args=(current_app,msg)).start()

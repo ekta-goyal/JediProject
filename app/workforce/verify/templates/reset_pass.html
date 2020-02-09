@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Jedi Password Reset</title>
+    <title>Jedi Order Welcome</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Latest compiled and minified CSS -->
     
   <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
@@ -12,13 +12,13 @@
         <img class="logo" width=100 src="{{ url_for('html_blueprint.static', filename='img/logo_light.png')}}" alt="LOGO">
         <div class="header">
             <h1 class="animation a1">
-              {{ mail_id }}
+              {{ user.name }}
             </h1>
-            <h4 class="animation a2">Reset Password</h4>
+            <h4 class="animation a2">Welcome. Edit Details</h4>
         </div>
-        <form class="login" action="{{url_for('api_blueprint.forget', only='id')}}" method = "POST">
+        <form class="login" action="{{url_for('verify_blueprint.forget_pass', token=token)}}" method = "POST">
             <div class="form">
-              <input required type="password" class="form-field animation a4" placeholder="Password" name="password"/>
+              <input required type="password" class="form-field animation a4" placeholder="New Password" name="password" minlength="8"/>
               <input type="hidden" name="{{ token }}" name="token"/>
               <input type="submit" class="animation a6" value="LOGIN" />
             </div>
@@ -37,30 +37,6 @@
       function showPage() {
           document.body.classList.remove('js-loading');
       }
-      $(function () {
-          $('form.login').submit(function (e) {
-              e.preventDefault();
-              console.log($('form.login').serialize());
-              var url = $(this).attr('action');
-              $.ajax({
-                  type: 'post',
-                  url: url,
-                  data: $(this).serialize(),
-                  statusCode: {
-                      200: function() {
-                        window.location.href = "{{url_for('html_blueprint.home')}}";
-                      },
-                      401: function() {
-                          document.getElementById("error").style["display"] = "block";
-                      },
-                      500: function() {
-                        alert('500 status code! server error');
-                      }
-                    }
-              });
-      
-          });
-      });
       
       function on() {
         document.getElementById("overlay").style.display = "block";

@@ -62,9 +62,9 @@ def forget():
     try:
         user_name = request.form['username']
         token = get_time_token(user_name, salt="forget-password")
-        subject = "Forget Password"
-        body = "This is body"
-        html = f"""<!DOCTYPE html><html><body><a style='color="red"'>{token}</a></body></html>"""
+        subject = "Password Reset | Request for Password Reset"
+        body = token
+        html = render_template('forget_mail.html', token=token)
         send_async_email(current_app._get_current_object(),[user_name], subject, body, html)
         return '', HTTPStatus.OK
     except:

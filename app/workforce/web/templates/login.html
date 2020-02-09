@@ -38,6 +38,8 @@
             {% else %}
               {%if not request.args.get('error') %}
                 <h4 class="animation a2">Log in for entering your dashboard.
+              {% elif not request.args.get('info') %}
+              <h3 class="animation a2" style="color: seagreen;">{{request.args.get('info')}}</h3>
               {% else %}
                   <h3 class="animation a2" style="color: indianred;">Logout from current user</h3>
               {% endif %}
@@ -71,7 +73,9 @@
                 <div class="form">
                   <input required type="text" class="form-field animation a2-new" placeholder="Username(Email)" name="username"/>
                   <input type="submit" class="animation a5-new" value="SUBMIT" />
+                  <p id="sent" class="sent_css">Mail sent</p>
                 </div>
+
             </form>
         </center>
     </div>
