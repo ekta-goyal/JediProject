@@ -55,7 +55,20 @@ def logout():
     logout_user()
     return '', HTTPStatus.NO_CONTENT
 
-
+@api_blueprint.route('/accounts/forget', methods=['POST'])
+def forget():
+    from app.crypt import get_time_token
+    from app.mail import send_async_email
+    try:
+        user_name = request.form['username']
+        token = get_time_token(user_name, salt="forget-password")
+        subject = "Forget Password"
+        body = "This is body"
+        html = f"""<!DOCTYPE html><html><body><a style='color="red"'>{token}</a></body></html>"""
+        send_async_email(current_app._get_current_object(),[user_name], subject, body, html)
+        return '', HTTPStatus.OK
+    except:
+        return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/users', methods=['GET'])
 @api_blueprint.route('/user/<int:id>', methods=['GET'])

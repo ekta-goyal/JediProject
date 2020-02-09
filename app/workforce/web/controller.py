@@ -30,7 +30,7 @@ def home():
     if user:
         return render_template('home.html',user=user)
     else:
-        return '', HTTPStatus.BAD_REQUEST
+        return redirect(url_for('html_blueprint.index'))
 
 @html_blueprint.route('/debug-sentry')
 def trigger_error():
