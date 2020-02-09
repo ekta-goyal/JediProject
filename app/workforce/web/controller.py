@@ -11,6 +11,7 @@ from app.database import db
 import datetime
 from flask import current_app
 from werkzeug.utils import secure_filename
+from sqlalchemy import desc
 
 html_blueprint = Blueprint('html_blueprint', __name__,
     template_folder='templates',
@@ -96,22 +97,7 @@ def update_status(taskId):
     db.session.commit()
     return '', HTTPStatus.OK
 
-@html_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
-def get_performance(userID):
-    tasks = Task.query.filter(Task.task_status=="DONE",Task.assignee_id==userID).all()
-    print(type(tasks))
-    total_cnt = len(tasks)
-    print("--------------------------- "+str(total_cnt))
-    cnt=0
-    percentage = 0
-    if total_cnt > 0:
-        for eachtask in tasks:
-            print(eachtask.actual_end_date)
-            print(eachtask.title)
-            if eachtask.actual_end_date != None:
-                print("-----inside-----")
-                if eachtask.expected_end_date <= eachtask.actual_end_date:
-                    cnt = cnt+1
-        percentage = (cnt*100)/total_cnt
-    print(percentage,total_cnt,cnt)
-    return {'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}
+
+
+
+

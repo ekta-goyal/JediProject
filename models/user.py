@@ -68,12 +68,34 @@ class UserSchema(Schema):
     uri = fields.Method("get_item_uri")
     
     teams_count = fields.Method("get_len_teams")
+
+    performance = fields.Method("get_performance")
     
     def get_item_uri(self, obj):
         return f'/api/v1/user/{obj.id}/'
 
     def get_len_teams(self, obj):
         return len(obj.teams)
+
+    def get_performance(self, obj):
+        tasks = obj.as_assignee
+        print(type(tasks))
+        total_cnt = len(tasks)
+        print("--------------------------- " + str(total_cnt))
+        cnt = 0
+        percentage = 0
+        if total_cnt > 0:
+            for eachtask in tasks:
+                print(eachtask.actual_end_date)
+                print(eachtask.title)
+                if eachtask.actual_end_date != None:
+                    print("-----inside-----")
+                    if eachtask.expected_end_date <= eachtask.actual_end_date:
+                        cnt = cnt + 1
+            percentage = (cnt * 100) / total_cnt
+        print(percentage, total_cnt, cnt)
+        return percentage
+
 
 if __name__ == '__main__':
     print("In user madel")

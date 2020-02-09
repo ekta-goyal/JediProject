@@ -23,16 +23,25 @@ Admin | Login
           </div>
         {% endif %}
     {% else %}
-            <center>
-            <form method="post" action="{{ url_for('admin_html_blueprint.admin_login') }}">
-                <input type="text" name="username"/>
-                <input type="password" name="password"/>
-                <input type="submit" />
-            </form>
+    <div class="container-fluid">
+      <div class="row vertical-center">
+          <form class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-3 col-md-4 col-sm-offset-4 col-lg-2 col-lg-offset-5" method="post" action="{{ url_for('admin_html_blueprint.admin_login') }}">
+            <h1>Sign In</h1>
+            <p>
+              <label class="sr-only" for="">Email Address</label>
+              <input name="username" class="form-control" type="email" placeholder="Username" required autofocus>
+            </p>
+            <p>
+              <label class="sr-only" for="">Password</label>
+              <input name="password" class="form-control" type="password" placeholder="Password" required>
+            </p>
+            <button class="btn btn-primary btn-block" type="sumbit">Sign In</button>
             {% if request.args.get('error', False)%}
               <p style="color: brown;">{{request.args.get('error')}}</p>
             {% endif %}
-            </center>
+          </form>
+      </div>
+    </div>
     {% endif %}
 {% endblock body %}
 

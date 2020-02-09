@@ -32,3 +32,7 @@ font-size: 0.8em;
 -o-transform: perspective(8em) rotateX(11deg) scale(1.2);
 transform: perspective(8em) rotateX(11deg) scale(1.2);
 }
+.vertical-center {
+    display: flex;
+    align-items: center;
+ }
