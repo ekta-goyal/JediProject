@@ -1,17 +1,50 @@
 <html>
   <head>
-    <title>Flask Intro - login page</title>
+    <title>Jedi Login page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+  <link href="{{ url_for('html_blueprint.static', filename='css/index.css') }}" rel="stylesheet">
   </head>
   <body>
     <div class="container">
+      <div class="left-section">
+        <img class="logo" src="{{ url_for('html_blueprint.static', filename='images/logo.jpg')}}" alt="LOGO">
+        <div class="header">
+            <h1 class="animation a1">
+              {{ current_user.name }}
+            </h1>
+            <h4 class="animation a2">Log in for entering your dashboard.<br />(Not you? do the same)</h4>
+        </div>
+        <form class="login" action="{{url_for('api_blueprint.login', only='id')}}" method = "POST">
+            <div class="form">
+              <input required type="email" class="form-field animation a3" placeholder="Username(Email)" name="username"/>
+              <input required type="password" class="form-field animation a4" placeholder="Password" name="password"/>
+              <p class="animation a5"><a href="#" onclick="on()">Forgot Password</a></p>
+              <input type="submit" class="animation a6" value="LOGIN" />
+              <p id="error" class="error_css">Username or password Error</p>
+            </div>
+        </form>
+      </div>
+        <div class="right-section">
+             <div class="loading">Under Construction</div>
+        </div>
+    </div>
+        <div id="overlay" onclick="off()">
+        <center>
+            <form class="forget" method = "POST" >
+                <h4 class="animation a1-new">Enter Username or Email, You will get a password via mail.</h4>
+                <div class="form">
+                  <input required type="text" class="form-field animation a2-new" placeholder="Username(Email)" name="username"/>
+                  <input type="submit" class="animation a5-new" value="SUBMIT" />
+                  <p id="sent" class="sent_css">Mail sent</p>
+                </div>
+            </form>
+        </center>
+    </div>
+
+
+    <!-- <div class="container">
       <h1>Please login</h1>
       <br>
       <form id="loginForm" action="{{url_for('api_blueprint.login', only='id')}}" method="post">
@@ -22,9 +55,77 @@
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
       {% endif %}
-    </div>
-    <script>
-// this is the id of the form
+    </div> -->
+    <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+    <script src="{{url_for('html_blueprint.static', filename='js/index.css')}}"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script>document.body.classList.add('js-loading');
+      window.addEventListener("load", showPage, false);
+      
+      function showPage() {
+          document.body.classList.remove('js-loading');
+      }
+      
+      
+      $(function () {
+          $('form.login').submit(function (e) {
+              e.preventDefault();
+              console.log($('form.login').serialize());
+              var url = $(this).attr('action');
+              $.ajax({
+                  type: 'post',
+                  url: url,
+                  data: $(this).serialize(),
+                  statusCode: {
+                      200: function() {
+                        window.location.href = "{{url_for('html_blueprint.home')}}";
+                      },
+                      401: function() {
+                          document.getElementById("error").style["display"] = "block";
+                      },
+                      500: function() {
+                        alert('500 status code! server error');
+                      }
+                    }
+              });
+      
+          });
+          $('form.forget').submit(function (e) {
+              e.preventDefault();
+              document.getElementById("sent").style["display"] = "block";
+              document.getElementById("sent").innerHTML = "Mail Sending...";
+              $.ajax({
+                  type: 'post',
+                  url: 'forget',
+                  data: $(this).serialize(),
+                  statusCode: {
+                      200: function() {
+                          document.getElementById("sent").innerHTML = "Mail Sent";
+                      },
+                      401: function() {
+                        document.getElementById("sent").innerHTML = "Mail Not Sent <a style='color:#fff' href='/'>Reload</a>";
+                        document.getElementById("sent").style["color"] = "red";
+                      },
+                      500: function() {
+                        alert('500 status code! server error');
+                      }
+                    }
+              });
+      
+          });
+      });
+      
+      function on() {
+        document.getElementById("overlay").style.display = "block";
+      }
+      
+      function off() {
+        if(event.target.id==="overlay"){
+        document.getElementById("overlay").style.display = "none";
+          }
+      }
+    </script>
+<!--// this is the id of the form
 $("#loginForm").submit(function(e) {
 
     e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -39,13 +140,12 @@ $("#loginForm").submit(function(e) {
            success: function(data)
            {
              console.log(data);
-              alert("{{url_for('html_blueprint.home')}}");
               window.location.replace("{{url_for('html_blueprint.home')}}");
            }
          });
 
 
 });
-    </script>
+    </script>-->
   </body>
 </html>
