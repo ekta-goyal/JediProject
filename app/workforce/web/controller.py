@@ -1,6 +1,6 @@
 import os
 
-from flask import request, redirect, url_for, render_template, Blueprint
+from flask import request, redirect, url_for, render_template, Blueprint, jsonify
 from itsdangerous import SignatureExpired, BadTimeSignature
 from http import HTTPStatus
 from flask_login import login_required,current_user
@@ -115,7 +115,7 @@ def get_performance(userID):
                     cnt = cnt+1
         percentage = (cnt*100)/total_cnt
     print(percentage,total_cnt,cnt)
-    return ({'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt},), HTTPStatus.OK
+    return jsonify([{'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}]), HTTPStatus.OK
 
 
 
