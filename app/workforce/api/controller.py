@@ -130,10 +130,10 @@ def get_team_tasks(team_id):
     status = request.args.get('status', '')
     if status in ["my"]:
         id = current_user.get_id()
-        tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).all()
+        tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
         data = get_data(tasks, TaskSchema, request=request, many=True)
     elif status:
-        tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).all()
+        tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
         data = get_data(tasks, TaskSchema, request=request, many=True)
     else:
         team = Team.query.filter_by(id=team_id).first_or_404()
@@ -145,7 +145,7 @@ def get_team_tasks(team_id):
 
 
 @api_blueprint.route('/tasks', methods=['GET'])
-#@login_required
+# @login_required
 def get_my_tasks():
     status = request.args.get('status', '')
     if status in ["end"]:
@@ -162,3 +162,11 @@ def get_my_tasks():
         return jsonify(data), HTTPStatus.OK
     else:
         return '', HTTPStatus.BAD_REQUEST
+
+
+
+@api_blueprint.route('/reporterTasks/<int:userID>', methods=['GET'])
+def get_performance(userID):
+    tasks = Task.query.filter(Task.reporter_id==userID).order_by(desc(Task.created_at)).all()
+    data = get_data(tasks, TaskSchema, request=request, many=True)
+    return jsonify(data), HTTPStatus.OK
