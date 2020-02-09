@@ -62,19 +62,19 @@ def add_data(app):
         a1, a2, a3 = (
             User(
                 name='Nitheesh Chandra',
-                username="Nitheesh",
+                username="Nith@gmail.com",
                 password="nith@123",
                 type='admin'
             ),
             User(
                 name='Vishaka Shah',
-                username="Vishaka",
+                username="Vishaka05@gmail.com",
                 password="vish@123",
                 type='admin'
             ),
             User(
                 name='Ekta Goyal',
-                username="Ekta",
+                username="Ekta5@gmail.com",
                 password="ekta@123",
                 type='admin'
             )
