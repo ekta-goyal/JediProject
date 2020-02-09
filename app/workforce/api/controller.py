@@ -59,7 +59,7 @@ def logout():
 
 @api_blueprint.route('/users', methods=['GET'])
 @api_blueprint.route('/user/<int:id>', methods=['GET'])
-@login_required
+#@login_required
 def get_user(id=None):
     if id:
         user = User.query.filter_by(id=id, type='regular-user', is_verified=1).first_or_404()
@@ -74,7 +74,7 @@ def get_user(id=None):
 
 @api_blueprint.route('/teams', methods=['GET'])
 @api_blueprint.route('/team/<int:id>', methods=['GET'])
-@login_required
+#@login_required
 def get_team(id=None):
     if id:
         team = Team.query.filter_by(id=id).first_or_404()
@@ -88,24 +88,24 @@ def get_team(id=None):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/banner', methods=['GET'])
-@login_required
+#@login_required
 def get_team_banner(team_id):
-    rs = db.engine.execute(f'SELECT * FROM User_Team_Mapping where user_id={current_user.id} AND team_id={team_id}')
-    print(rs)
+    rs = db.engine.execute(f'SELECT team_id,user_id,is_verified,color,image_index,image_link FROM User_Team_Mapping where user_id={current_user.id} AND team_id={team_id}')
+    team_id,user_id,is_verified,color,image_index,image_link = [None]*6
     for x in rs:
-        team_id, user_id, is_verified, color, index, link = x
+        team_id,user_id,is_verified,color,image_index,image_link = x
         break
     return jsonify({
         "team_id": team_id,
         "user_id": user_id,
         "is_verified": is_verified,
         "color": color,
-        "index": index,
-        "link": link
+        "index": image_index,
+        "link": image_link
     }), HTTPStatus.OK
 
 @api_blueprint.route('/user/<int:user_id>/teams', methods=['GET'])
-@login_required
+#@login_required
 def get_user_teams(user_id):
     user = User.query.filter_by(id=user_id, type='regular-user', is_verified=1).first_or_404()
     data = get_data(user.teams, TeamSchema, request=request, many=True)
@@ -115,7 +115,7 @@ def get_user_teams(user_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/users', methods=['GET'])
-@login_required
+#@login_required
 def get_team_users(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
     data = get_data(team.users, UserSchema, request=request, many=True)
@@ -125,7 +125,7 @@ def get_team_users(team_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/tasks', methods=['GET'])
-@login_required
+#@login_required
 def get_team_tasks(team_id):
     status = request.args.get('status', '')
     if status in ["my"]:
@@ -145,16 +145,16 @@ def get_team_tasks(team_id):
 
 
 @api_blueprint.route('/tasks', methods=['GET'])
-@login_required
+#@login_required
 def get_my_tasks():
     status = request.args.get('status', '')
     if status in ["end"]:
         id = current_user.get_id()
-        tasks = Task.query.filter_by(assignee_id=id).filter(Task.expected_end_date >= date.today()).order_by(desc(Task.expected_end_date)).all()
+        tasks = Task.query.filter_by(assignee_id=id).filter(Task.expected_end_date >= date.today()).filter(Task.task_status != 'DONE').order_by(desc(Task.expected_end_date)).all()
         data = get_data(tasks, TaskSchema, request=request, many=True)
     elif status in ["start"]:
         id = current_user.get_id()
-        tasks = Task.query.filter_by(assignee_id=id).filter(Task.start_date >= date.today()).order_by(desc(Task.start_date)).all()
+        tasks = Task.query.filter_by(assignee_id=id).filter(Task.start_date >= date.today()).filter(Task.task_status != 'DONE').order_by(desc(Task.start_date)).all()
         data = get_data(tasks, TaskSchema, request=request, many=True)
     else:
         data = 'error'

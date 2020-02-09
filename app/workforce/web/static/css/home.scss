@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:500');
 
 body { 
-    background-color: #24252a;
+    background-color: #1b1716;
     box-sizing: border-box;
     margin:0px;
     width: 100vw;
@@ -22,7 +22,7 @@ li, a, button {
 }
 #navbar { 
     max-height: 200px;
-    background-color: #24252a;
+    background-color: #1b1716;
     grid-area: 1 / 1 / 2 / 4;
 } 
 header {
@@ -46,14 +46,14 @@ header {
                 transition: all 0.3s ease 0s;
             }
             a:hover {
-                color: #0088A9;
+                color: #1f5d2f;
             }
         }
     }
     a button {
         margin-left: 20px;
         padding: 9px 25px;
-        background-color: rgba(0, 136, 169, 1);
+        background-color: #1f5d2fff;
         border: none;
         border-radius: 50px;
         cursor: pointer;
@@ -61,8 +61,7 @@ header {
 
     }
     a button:hover {
-        background-color: rgba(0, 136, 169, 0.8);
-        
+        background-color: #1f5d2faa;
     }
 
 }
@@ -71,12 +70,12 @@ header {
     grid-area: 2 / 1 / 3 / 2;
 } 
 #team {
-    background-color: #ffcc5c;
+    background-color: #34353a;
     grid-area: 2 / 2 / 4 / 3;
     overflow: auto;
 } 
 #mainapp {
-    background-color: #88d8b0;
+    background-color: #f3f7fb;
     grid-area: 2 / 3 / 4 / 4;
     display: flex;
     flex-direction: column;
@@ -95,6 +94,14 @@ header {
 }
 .each-item > div {
     padding: 10px;
+    text-align: center;
+    border-radius: 25px;
+}
+.each-item > div:hover{
+    background-color: #54555a;
+}
+.each-item h5 {
+    margin: 2px;
 }
 .team-img {
     border-radius: 50%;

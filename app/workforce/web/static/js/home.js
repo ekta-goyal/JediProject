@@ -1,3 +1,18 @@
+var BASE_URL = 'http://127.0.0.1:5000'
+var Item = ({ id, name }) => {
+    $.get(BASE_URL+`/api/v1/team/${id}/banner`,(data, status)=>{
+        const link = data["link"]
+        console.log("Adding...")
+        $('.each-item').add(`
+<div id="team${id}">
+  <a href="#">
+    <img class="team-img" src="${link}", alt="${id}"/>
+    <h5>${name}</h5>
+  </a>
+</div>`);
+    })
+}
+
 var set_drag_on_all = () => {    const listItems = document.querySelectorAll('.list-item');
     const lists = document.querySelectorAll('.list');
 
@@ -48,6 +63,9 @@ var set_drag_on_all = () => {    const listItems = document.querySelectorAll('.l
 
 
 $(document).ready(function(){
+    $.get(BASE_URL + '/api/v1/teams?only=id,name,uri', (data, status)=>{
+        data.map(Item)
+    });
     $("button").click(function(){
         $("#div1").load("demo_test.txt");
     });

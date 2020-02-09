@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500");
 body {
-  background-color: #24252a;
+  background-color: #1b1716;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin: 0px;
@@ -27,7 +27,7 @@ li, a, button {
 
 #navbar {
   max-height: 200px;
-  background-color: #24252a;
+  background-color: #1b1716;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   -ms-grid-column: 1;
@@ -68,13 +68,13 @@ header nav .nav__links li a {
 }
 
 header nav .nav__links li a:hover {
-  color: #0088A9;
+  color: #1f5d2f;
 }
 
 header a button {
   margin-left: 20px;
   padding: 9px 25px;
-  background-color: #0088a9;
+  background-color: #1f5d2fff;
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -83,7 +83,7 @@ header a button {
 }
 
 header a button:hover {
-  background-color: rgba(0, 136, 169, 0.8);
+  background-color: #1f5d2faa;
 }
 
 #sidebar {
@@ -96,7 +96,7 @@ header a button:hover {
 }
 
 #team {
-  background-color: #ffcc5c;
+  background-color: #34353a;
   -ms-grid-row: 2;
   -ms-grid-row-span: 2;
   -ms-grid-column: 2;
@@ -106,7 +106,7 @@ header a button:hover {
 }
 
 #mainapp {
-  background-color: #88d8b0;
+  background-color: #f3f7fb;
   -ms-grid-row: 2;
   -ms-grid-row-span: 2;
   -ms-grid-column: 3;
@@ -150,6 +150,16 @@ header a button:hover {
 
 .each-item > div {
   padding: 10px;
+  text-align: center;
+  border-radius: 25px;
+}
+
+.each-item > div:hover {
+  background-color: #54555a;
+}
+
+.each-item h5 {
+  margin: 2px;
 }
 
 .team-img {
