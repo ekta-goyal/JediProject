@@ -166,7 +166,7 @@ def get_my_tasks():
 
 
 @api_blueprint.route('/reporterTasks', methods=['GET'])
-def get_performance():
+def reporter_tasks():
     userID = current_user.id
     tasks = Task.query.filter(Task.reporter_id==userID).order_by(desc(Task.created_at)).all()
     data = get_data(tasks, TaskSchema, request=request, many=True)
