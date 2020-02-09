@@ -29,8 +29,8 @@ class Task(db.Model, At, By):
     assignee_id = db.Column(db.Integer,db.ForeignKey('User.id'))
     team_id = db.Column(db.Integer,db.ForeignKey('Team.id'))
 
-    reporter = db.relationship('User', backref=db.backref('as_reporter', lazy='dynamic'), primaryjoin="User.id==Task.reporter_id")
-    assignee = db.relationship('User', backref=db.backref('as_assignee', lazy='dynamic'), primaryjoin="User.id==Task.assignee_id")
+    reporter = db.relationship('User', backref=db.backref('as_reporter'), primaryjoin="User.id==Task.reporter_id")
+    assignee = db.relationship('User', backref=db.backref('as_assignee'), primaryjoin="User.id==Task.assignee_id")
 
     team = db.relationship('Team', backref=db.backref('tasks', lazy='dynamic'))
 

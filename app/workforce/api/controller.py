@@ -173,6 +173,6 @@ def get_my_tasks():
 
 @api_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
 def get_performance(userID):
-    user = User.query.filter(id==userID)
+    user = User.query.filter_by(id=userID).all()
     data = get_data(user, UserSchema, request=request, many=True)
     return jsonify(data), HTTPStatus.OK
