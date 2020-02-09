@@ -11,9 +11,9 @@
                <br>
 
                 {{ form.description.label }}</br>
-                {{ form.description }}
+                {{ form.description }} </br>
                 {{ form.expected_end_date.label }}<br>
-                {{ form.expected_end_date(class='datepicker') }}
+                {{ form.expected_end_date(class='datepicker',minDate = 0) }}
                <br>
 
                {{ form.priority.label }}<br>
@@ -39,3 +39,13 @@
          </fieldset>
       </form>
 </div>
+
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js">#}
+{#    $(document).ready(function() {#}
+{#        // Date Object#}
+{#        $('.datepicker').datepicker({#}
+{#            dateFormat: "yy-mm-dd",#}
+{#            minDate: new Date('2020-02-08')#}
+{#        });#}
+{#    })#}
+{#</script>#}

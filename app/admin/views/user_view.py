@@ -29,9 +29,14 @@ class UserView(ModelView, ExtraCss, TimeManager):
     )
 
     def is_accessible(self):
-        return current_user.is_authenticated
+        if current_user.is_authenticated and current_user.type == 'admin':
+            return True
+        else:
+            return False
 
     def inaccessible_callback(self, name, **kwargs):
+        if current_user.type == 'user':
+            return redirect(url_for('html_blueprint.index'))
         return redirect(url_for('admin_html_blueprint.admin_login'))
 
     def after_model_change(self, form, model, is_created):
