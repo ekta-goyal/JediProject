@@ -67,7 +67,8 @@ def forget():
         html = render_template('forget_mail.html', token=token)
         send_async_email(current_app._get_current_object(),[user_name], subject, body, html)
         return '', HTTPStatus.OK
-    except:
+    except Exception as e:
+        print(e)
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/users', methods=['GET'])
