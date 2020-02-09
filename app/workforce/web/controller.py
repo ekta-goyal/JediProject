@@ -11,6 +11,7 @@ from app.database import db
 import datetime
 from flask import current_app
 from werkzeug.utils import secure_filename
+from sqlalchemy import desc
 
 html_blueprint = Blueprint('html_blueprint', __name__,
     template_folder='templates',
@@ -115,3 +116,7 @@ def get_performance(userID):
         percentage = (cnt*100)/total_cnt
     print(percentage,total_cnt,cnt)
     return {'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}
+
+
+
+
