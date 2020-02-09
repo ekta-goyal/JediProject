@@ -15,6 +15,7 @@ def confirm_email(token):
         contact = request.form["contact"]
         token = request.form["token"]
         mail_id = get_token_data(token, salt="user-create", max_age=1*24*60*60)
+        print(password, designation, contact, mail_id)
         user = User.query.filter_by(username=mail_id).first_or_404()
         user.is_verified = True
         user.password = password
