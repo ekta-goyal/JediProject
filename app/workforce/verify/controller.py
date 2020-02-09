@@ -41,6 +41,7 @@ def confirm_team(token):
         team_id, user_id = payload.split(',')
         team_id, user_id = int(team_id), int(user_id)
         db.engine.execute(f'UPDATE User_Team_Mapping SET is_verified = true WHERE team_id = {team_id} AND user_id = {user_id}')
+        return redirect(url_for('html_blueprint.home'))
     except SignatureExpired:
         return 'Token Expired'
     except BadTimeSignature:

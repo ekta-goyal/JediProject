@@ -72,7 +72,7 @@ def forget():
 
 @api_blueprint.route('/users', methods=['GET'])
 @api_blueprint.route('/user/<int:id>', methods=['GET'])
-#@login_required
+@login_required
 def get_user(id=None):
     if id:
         user = User.query.filter_by(id=id, type='regular-user', is_verified=1).first_or_404()
@@ -87,7 +87,7 @@ def get_user(id=None):
 
 @api_blueprint.route('/teams', methods=['GET'])
 @api_blueprint.route('/team/<int:id>', methods=['GET'])
-#@login_required
+@login_required
 def get_team(id=None):
     if id:
         team = Team.query.filter_by(id=id).first_or_404()
@@ -101,7 +101,7 @@ def get_team(id=None):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/banner', methods=['GET'])
-#@login_required
+@login_required
 def get_team_banner(team_id):
     rs = db.engine.execute(f'SELECT team_id,user_id,is_verified,color,image_index,image_link FROM User_Team_Mapping where user_id={current_user.id} AND team_id={team_id}')
     team_id,user_id,is_verified,color,image_index,image_link = [None]*6
@@ -118,7 +118,7 @@ def get_team_banner(team_id):
     }), HTTPStatus.OK
 
 @api_blueprint.route('/user/<int:user_id>/teams', methods=['GET'])
-#@login_required
+@login_required
 def get_user_teams(user_id):
     user = User.query.filter_by(id=user_id, type='regular-user', is_verified=1).first_or_404()
     data = get_data(user.teams, TeamSchema, request=request, many=True)
@@ -128,7 +128,7 @@ def get_user_teams(user_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/users', methods=['GET'])
-#@login_required
+@login_required
 def get_team_users(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
     data = get_data(team.users, UserSchema, request=request, many=True)
@@ -138,7 +138,7 @@ def get_team_users(team_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/tasks', methods=['GET'])
-#@login_required
+@login_required
 def get_team_tasks(team_id):
     status = request.args.get('status', '')
     if status in ["my"]:
@@ -158,7 +158,7 @@ def get_team_tasks(team_id):
 
 
 @api_blueprint.route('/tasks', methods=['GET'])
-# @login_required
+@login_required
 def get_my_tasks():
     status = request.args.get('status', '')
     if status in ["end"]:

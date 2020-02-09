@@ -12,4 +12,4 @@ class AdministratorIndexView(AdminIndexView, ExtraCss):
             return True
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('html_blueprint.index'))
+        return redirect(url_for('html_blueprint.index', error="Please Logout from current user"))

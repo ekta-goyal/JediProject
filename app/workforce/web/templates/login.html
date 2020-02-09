@@ -36,11 +36,18 @@
             {% if  current_user.type == 'admin' %}
               <h4 class="animation a2">Oh..! You are.. beep.. beep.. Admin
             {% else %}
-            <h4 class="animation a2">Log in for entering your dashboard.
+              {%if not request.args.get('error') %}
+                <h4 class="animation a2">Log in for entering your dashboard.
+              {% else %}
+                  <h3 class="animation a2" style="color: indianred;">Logout from current user</h3>
+              {% endif %}
             {% endif %}
             {% if current_user.name %}
-                <br />(Not you? do the same)
-            {% endif %}</h4>
+                <br /><h4 class="animation a3">(Not you?{%if not request.args.get('error') %}do the same
+                {% else %}Contact {{current_user.name}}
+                {% endif %}
+                )</h4>
+            {% endif %}
         </div>
         <form class="login" action="{{url_for('api_blueprint.login', only='id')}}" method = "POST">
             <div class="form">
@@ -49,6 +56,7 @@
               <p class="animation a5"><a href="#" onclick="on()">Forgot Password</a></p>
               <input type="submit" class="animation a6" value="LOGIN" />
               <p id="error" class="error_css">Username or password Error</p>
+              <p class="error_css">Username or password Error</p>
             </div>
         </form>
       </div>
@@ -63,7 +71,6 @@
                 <div class="form">
                   <input required type="text" class="form-field animation a2-new" placeholder="Username(Email)" name="username"/>
                   <input type="submit" class="animation a5-new" value="SUBMIT" />
-                  <p id="sent" class="sent_css">Mail sent</p>
                 </div>
             </form>
         </center>
@@ -83,7 +90,7 @@
       {% endif %}
     </div> -->
     <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
-    <script src="{{url_for('html_blueprint.static', filename='js/index.css')}}"></script>
+    <script src="{{url_for('html_blueprint.static', filename='js/index.js')}}"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script>document.body.classList.add('js-loading');
       window.addEventListener("load", showPage, false);
@@ -104,7 +111,11 @@
                   data: $(this).serialize(),
                   statusCode: {
                       200: function() {
-                        window.location.href = "{{url_for('html_blueprint.home')}}";
+                        {% if path==None %}
+                          window.location.href = "{{url_for('html_blueprint.home')}}";
+                        {% else %}
+                          window.location.href = "{{path}}";
+                        {% endif %}
                       },
                       401: function() {
                           document.getElementById("error").style["display"] = "block";
