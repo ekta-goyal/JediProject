@@ -69,7 +69,7 @@ class UserSchema(Schema):
     
     teams_count = fields.Method("get_len_teams")
 
-    performance = fields.Methos("get_performance")
+    performance = fields.Method("get_performance")
     
     def get_item_uri(self, obj):
         return f'/api/v1/user/{obj.id}/'
