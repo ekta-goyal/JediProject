@@ -1,20 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500');
+
 body { 
+    background-color: #24252a;
+    box-sizing: border-box;
     margin:0px;
     width: 100vw;
     height: 100vh;
     max-height: 100vh;
     display: grid;
     grid-template-columns: minmax(200px,0.2fr) 120px auto;
-    grid-template-rows: minmax(100px,0.1fr) auto minmax(100px,0.1fr);
+    grid-template-rows: minmax(60px,0.07fr) auto minmax(100px,0.1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
+li, a, button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ecf0f1;
+    text-decoration: none;
+}
 #navbar { 
     max-height: 200px;
-    background-color: #96ceb4;
+    background-color: #24252a;
     grid-area: 1 / 1 / 2 / 4;
-  justify-content: center;
 } 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+
+    .logo {
+        cursor: pointer;
+        width:75px;
+    }
+    nav .nav__links {
+        list-style: none;
+
+        li {
+            display: inline-block;
+            padding: 0px 20px;
+
+            a{
+                transition: all 0.3s ease 0s;
+            }
+            a:hover {
+                color: #0088A9;
+            }
+        }
+    }
+    a button {
+        margin-left: 20px;
+        padding: 9px 25px;
+        background-color: rgba(0, 136, 169, 1);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease 0s;
+
+    }
+    a button:hover {
+        background-color: rgba(0, 136, 169, 0.8);
+        
+    }
+
+}
 #sidebar {
     background-color: #ffeead;
     grid-area: 2 / 1 / 3 / 2;
@@ -50,19 +101,42 @@ body {
 }
 
 .team-details {
+    min-height: 16vh;
+    max-height: 16vh;
     margin: 15px;
-    background-color: hotpink;
+    background-color: rgba(255,255,255,0.4);
+    padding: 8px;
 }
-.task-board {
-    margin: 15px;
-    background-color: gold;
+.app {
+    max-height: 65vh;
+    display: flex;
+    flex-flow: column;
+}
+
+.lists {
     display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-items: center;
-}
-.task-board > div {
-    background-color: lemonchiffon;
-}
-.task-area {
-    overflow: auto;
+    grid-template-columns: repeat(3, minmax(250px, 0.8fr));
+    grid-gap: 1px;
+    width: 100%;
+
+    .list{
+        max-height: 55vh;
+        display: flex;
+        overflow-x: scroll;
+        flex-flow: column-reverse;
+        height: 100%;
+        min-height: 150px;
+        background-color: rgba(0,0,0,0.1);
+        margin: 0px 15px;
+        padding: 8px;
+        transition: all 0.2s linear;
+
+        .list-item {
+            background-color: darksalmon;
+            border-radius: 8px;
+            padding: 15px 20px;
+            text-align: center;
+            margin: 4px 0px;
+        }
+    }
 }

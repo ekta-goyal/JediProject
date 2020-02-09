@@ -7,15 +7,23 @@
         <link rel="stylesheet" href="{{ url_for('html_blueprint.static', filename='css/home.css') }}">
     </head>
   <body>
-    <div id="navbar">
-        <div id="navbar__logo"><h1>hello there</h1></div>
-        <div id="links">
-            <a href="">link1</a>
-            <a href="">link2</a>
-            <a href="">link3</a>
-            <a href="">link4</a>
-        </div>
-    </div>
+    <header id="navbar">
+        <img class="logo" src="{{url_for('html_blueprint.static', filename='img/logo_dark.png')}}" alt="Jedi Order">
+        <nav>
+          <ul class="nav__links">
+            <li>
+              <a href="#">Something 1</a>
+            </li>
+            <li>
+              <a href="#">Something 2</a>
+            </li>
+            <li>
+              <a href="#">Something 3</a>
+            </li>
+          </ul>
+        </nav>
+        <a href="#" class="cta"><button>Logout</button></a>
+      </header>
     <div id="team">
       <div class="each-item">
         <div><a href="/page-1/"><img class="team-img" src="https://picsum.photos/100/100?random=1"/></a></div>
@@ -34,27 +42,43 @@
         <h1>Title</h1>
         <p>Some Random Paragraph<br /> hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
       </div>
-      <div class="task-board muuri">
-        <div class="swimlane muuri-item muuri-item-shown">
-          <div class="header">TODO</div>
-          <div class="task-area muuri">
-            <div class="task">Task1</div>
-            <div class="task">Task1</div>
-            <div class="task">Task1</div>
-            <div class="task">Task1</div>
+      <div class="app">
+        <div class="lists">
+          <div class="swimlane">
+            <h2>TODO</h2>
+            <div class="list">
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+            </div>
           </div>
-        </div>
-        <div class="swimlane muuri-item muuri-item-shown">
-          <div class="header">DOING</div>
-          <div class="task-area muuri">
-            <div class="task">Task1</div>
-            <div class="task">Task1</div>
+          <div class="swimlane">
+            <h2>DOING</h2>
+            <div class="list">
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+            </div>
           </div>
-        </div>
-        <div class="swimlane muuri-item muuri-item-shown">
-          <div class="header">DONE</div>
-          <div class="task-area muuri">
-            <div class="task">Task1</div>
+          <div class="swimlane">
+            <h2>DONE</h2>
+            <div class="list">
+              <div class="list-item" draggable="true">List Item 1</div>
+              <div class="list-item" draggable="true">List Item 2</div>
+              <div class="list-item" draggable="true">List Item 3</div>
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +90,6 @@
   <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-  <script type="text/javascript" src="{{ url_for('html_blueprint.static', filename='slick/slick.min.js') }}"></script>
   <script src="https://haltu.github.io/muuri/scripts/vendor/muuri-0.8.0.js"></script>
-  <script src="{{ url_for('html_blueprint.static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('html_blueprint.static', filename='js/home.js') }}"></script>
 </html>
