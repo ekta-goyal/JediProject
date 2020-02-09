@@ -38,7 +38,7 @@
             {% else %}
               {%if not request.args.get('error') %}
                 <h4 class="animation a2">Log in for entering your dashboard.
-              {% elif not request.args.get('info') %}
+              {% elif request.args.get('info', False) %}
               <h3 class="animation a2" style="color: seagreen;">{{request.args.get('info')}}</h3>
               {% else %}
                   <h3 class="animation a2" style="color: indianred;">Logout from current user</h3>
