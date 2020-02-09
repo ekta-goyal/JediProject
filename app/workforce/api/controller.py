@@ -9,7 +9,7 @@ from sqlalchemy import desc
 from datetime import date
 # from models import select
 
-api_blueprint = Blueprint('api_blueprint', __name__)
+api_blueprint = Blueprint('api_blueprint', __name__, template_folder="templates")
 
 def get_data(obj, schema, request=None, many=False):
     exclude = tuple(filter(None, request.args.get('exclude', '').split(',')))
