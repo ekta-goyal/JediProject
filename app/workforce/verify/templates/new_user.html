@@ -16,7 +16,7 @@
             </h1>
             <h4 class="animation a2">Welcome. Edit Details</h4>
         </div>
-        <form class="login" action="{{url_for('verify_blueprint.confirm_email')}}" method = "POST">
+        <form class="login" action="{{url_for('verify_blueprint.confirm_email', token=token)}}" method = "POST">
             <div class="form">
               <input required type="password" class="form-field animation a4" placeholder="New Password" name="password" minlength="8"/>
               <input required type="text" class="form-field animation a4" placeholder="Designation" name="designation" value="{{user.designation}}"/>
