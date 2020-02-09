@@ -14,23 +14,26 @@ Admin | Login
 </div>
 {% endblock brand %}
 {% block body %}
-{% if current_user.is_authenticated %}
- 
-  <div class="logo">
-    <a>Hi<br>{{ current_user.name }}!</a>
-  </div>
-{% else %}
-    <center>
-    <form method="post" action="{{ url_for('admin_html_blueprint.admin_login') }}">
-        <input type="text" name="username"/>
-        <input type="password" name="password"/>
-        <input type="submit" />
-    </form>
-    {% if request.args.get('error', False)%}
-      <p style="color: brown;">{{request.args.get('error')}}</p>
+    {% if current_user.is_authenticated %}
+        {% if current_user.type == 'regular-user' %}
+            <h1> You do not have admin access! </h1>
+        {%  else %}
+          <div class="logo">
+            <a>Hi<br>{{ current_user.name }}!</a>
+          </div>
+        {% endif %}
+    {% else %}
+            <center>
+            <form method="post" action="{{ url_for('admin_html_blueprint.admin_login') }}">
+                <input type="text" name="username"/>
+                <input type="password" name="password"/>
+                <input type="submit" />
+            </form>
+            {% if request.args.get('error', False)%}
+              <p style="color: brown;">{{request.args.get('error')}}</p>
+            {% endif %}
+            </center>
     {% endif %}
-    </center>
-{% endif %}
 {% endblock body %}
 
 {% block access_control %}

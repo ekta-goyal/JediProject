@@ -6,7 +6,7 @@ from http import HTTPStatus
 from flask_login import login_required,current_user
 
 from .forms import AddTaskForm
-from models import Task, Attachments
+from models import Task, Attachments, User
 from app.database import db
 import datetime
 from flask import current_app
@@ -44,17 +44,12 @@ def trigger_error():
 def add_task():
     # old picture
     UPLOAD_FOLDER = 'uploads'
-    print("0000000000")
     addtask = Task()
-    print("1111111111")
     # form data - old picture
     # form = AddTaskForm(obj=addtask)
     form = AddTaskForm(request.form)
-    print("2222222222")
     if request.method == 'POST':
-        print("21212121")
         if form.validate_on_submit():
-            print("333333333")
             #  update picture data
             addtask.title = form.title.data
             addtask.description = form.description.data
@@ -66,7 +61,6 @@ def add_task():
             addtask.reporter_id = current_user.id
             print("44444444")
             if 'file' in request.files:
-                print("zzzzzzzzzzzz")
                 # breakpoint()
                 file = request.files['file']
                 if file:
@@ -91,5 +85,33 @@ def add_task():
 
         return render_template('addtask.html', form=form, edit=True)
     else:
-        print("999999")
         return render_template('addtask.html', form=form, edit=True)
+
+
+@html_blueprint.route('/statusUpdate/<int:taskId>', methods=['PUT','PATCH'])
+def update_status(taskId):
+    statusInfo = request.args['status']
+    updatetask = Task.query.get(taskId)
+    updatetask.task_status = statusInfo
+    db.session.commit()
+    return '', HTTPStatus.OK
+
+@html_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
+def get_performance(userID):
+    tasks = Task.query.filter(Task.task_status=="DONE",Task.assignee_id==userID).all()
+    print(type(tasks))
+    total_cnt = len(tasks)
+    print("--------------------------- "+str(total_cnt))
+    cnt=0
+    percentage = 0
+    if total_cnt > 0:
+        for eachtask in tasks:
+            print(eachtask.actual_end_date)
+            print(eachtask.title)
+            if eachtask.actual_end_date != None:
+                print("-----inside-----")
+                if eachtask.expected_end_date <= eachtask.actual_end_date:
+                    cnt = cnt+1
+        percentage = (cnt*100)/total_cnt
+    print(percentage,total_cnt,cnt)
+    return {'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}
