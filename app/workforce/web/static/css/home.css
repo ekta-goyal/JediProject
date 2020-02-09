@@ -72,14 +72,21 @@ header nav .nav__links li a:hover {
 }
 
 header a button {
-  margin-left: 20px;
   padding: 9px 25px;
   background-color: #1f5d2fff;
   border: none;
-  border-radius: 50px;
+  border-radius: 2px;
   cursor: pointer;
   -webkit-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
+}
+
+header #user button {
+  background-color: #51521e;
+}
+
+header #user button:hover {
+  background-color: rgba(81, 82, 30, 0.7);
 }
 
 header a button:hover {

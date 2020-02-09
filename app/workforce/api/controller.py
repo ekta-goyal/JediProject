@@ -53,6 +53,8 @@ def login():
 @api_blueprint.route('/accounts/logout', methods=['GET'])
 def logout():
     logout_user()
+    if request.args.get('web'):
+        return redirect(url_for('html_blueprint.index'))
     return '', HTTPStatus.NO_CONTENT
 
 @api_blueprint.route('/accounts/forget', methods=['POST'])

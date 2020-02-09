@@ -51,14 +51,19 @@ header {
         }
     }
     a button {
-        margin-left: 20px;
         padding: 9px 25px;
         background-color: #1f5d2fff;
         border: none;
-        border-radius: 50px;
+        border-radius: 2px;
         cursor: pointer;
         transition: all 0.3s ease 0s;
 
+    }
+    #user button{
+        background-color: rgba(81, 82, 30, 1.0);
+    }
+    #user button:hover{
+        background-color: rgba(81, 82, 30, 0.7);
     }
     a button:hover {
         background-color: #1f5d2faa;
