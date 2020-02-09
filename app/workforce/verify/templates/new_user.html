@@ -16,10 +16,9 @@
             </h1>
             <h4 class="animation a2">Welcome. Edit Details</h4>
         </div>
-        <form class="login" action="{{url_for('api_blueprint.forget', only='id')}}" method = "POST">
+        <form class="login" action="{{url_for('verify_blueprint.confirm_email')}}" method = "POST">
             <div class="form">
-              <input required type="email" class="form-field animation a4" disabled value="{{user.email}}"/>
-              <input required type="password" class="form-field animation a4" placeholder="Password" name="password"/>
+              <input required type="password" class="form-field animation a4" placeholder="New Password" name="password" minlength="8"/>
               <input required type="text" class="form-field animation a4" placeholder="Designation" name="designation" value="{{user.designation}}"/>
               <input required type="text" class="form-field animation a4" placeholder="Contact" name="contact" pattern="[6-9]{1}[0-9]{9}" value="{{user.contact}}"/>
               <input type="hidden" name="{{ token }}" name="token"/>
@@ -40,30 +39,6 @@
       function showPage() {
           document.body.classList.remove('js-loading');
       }
-      $(function () {
-          $('form.login').submit(function (e) {
-              e.preventDefault();
-              console.log($('form.login').serialize());
-              var url = $(this).attr('action');
-              $.ajax({
-                  type: 'post',
-                  url: url,
-                  data: $(this).serialize(),
-                  statusCode: {
-                      200: function() {
-                        window.location.href = "{{url_for('html_blueprint.home')}}";
-                      },
-                      401: function() {
-                          document.getElementById("error").style["display"] = "block";
-                      },
-                      500: function() {
-                        alert('500 status code! server error');
-                      }
-                    }
-              });
-      
-          });
-      });
       
       function on() {
         document.getElementById("overlay").style.display = "block";
