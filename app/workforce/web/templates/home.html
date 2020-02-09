@@ -25,20 +25,23 @@
         <a href="#" class="cta"><button>Logout</button></a>
       </header>
     <div id="sidebar">
-      <input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Search...">
-      <button id="addbutton" >Add</button>
-      <ul id="list">
-        <li class="animals">cat</li>
-        <li class="animals">dog</li>
-        <li class="animals">hvcds</li>
-        <li class="animals">cbdn</li>
-        <li class="animals">jkdn</li>
-        <li class="animals">hiw</li>
-        <li class="animals">y8iwh</li>
-        <li class="animals">nkx</li>
-        <li class="animals">ojpxml</li>
-        <li class="animals">lnx.</li>
-        <li class="animals">jbx</li>
+      <span><input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Search..."></span>
+      <span><button id="addbutton" onclick='on("new");'>Add</button></span>
+      <ul id="list" style="list-style-type:none">
+        <li class="animals"><a href="">cat</a></li>
+        <li class="animals"><a href="">dog</a></li>
+        <li class="animals"><a href="">jzkj</a></li>
+        <li class="animals"><a href="">cjdjb</a></li>
+        <li class="animals"><a href="">jkbxk</a></li>
+        <li class="animals"><a href="">yihuh</a></li>
+        <li class="animals"><a href="">jhgxjk</a></li>
+        <li class="animals"><a href="">ugxie</a></li>
+        <li class="animals"><a href="">hkdjb</a></li>
+        <li class="animals"><a href="">opj;n</a></li>
+        <li class="animals"><a href="">iuekbj </a></li>
+        <li class="animals"><a href="">ihxkjbs</a></li>
+        <li class="animals"><a href="">cjbkdm</a></li>
+        <li class="animals"><a href="">ucdbjm</a></li>
       </ul>
     </div>
     <div id="team">
@@ -55,39 +58,42 @@
         <div class="lists">
           <div class="swimlane">
             <h2 >TODO</h2>
-            <div class="list" id="todo">
+            <div class="list" id="TODO">
               <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
-              <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
-              <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
-              <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
+             
             </div>
           </div>
           <div class="swimlane">
             <h2>DOING</h2>
-            <div class="list" id="doing">
+            <div class="list" id="DOING">
               <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
-              <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
             </div>
           </div>
           <div class="swimlane">
             <h2>DONE</h2>
-            <div class="list" id="done">
+            <div class="list" id="DONE">
               <div class="list-item" draggable="true">List Item 1</div>
-              <div class="list-item" draggable="true">List Item 2</div>
-              <div class="list-item" draggable="true">List Item 3</div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div id="overlay" onclick="off()">
+        <div id="text">
+          <div class="jumbotron">
+            <div id="details">
+              <center><b id="id1">task title</b><br></center>
+              <center><i id="id2">task description</i><br></center>
+              <center>Status: <span id="id3">in progress</span><br></center>
+              <center>Reporter: <span id="id4">vishakha</span><br></center>
+              <center>Asignee: <span id="id5">ekta</span><br></center>
+              <center>Task Start Date: <span id="id6">21-07-2020</span><br></center>
+              <center>Task Deadline: <span id="id7">29-09-2020</span><br></center>
+              <center>Priority: <span id="id8">rohit</span><br></center>
+              <center>Actual End Date: <span id="id9">null</span><br></center>
+            </div>
+          <div id="includedContent">
+            
+          </div>
           </div>
         </div>
       </div>

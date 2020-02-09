@@ -164,12 +164,13 @@ def get_my_tasks():
         return '', HTTPStatus.BAD_REQUEST
 
 
-#
-# @api_blueprint.route('/reporterTasks/<int:userID>', methods=['GET'])
-# def get_performance(userID):
-#     tasks = Task.query.filter(Task.reporter_id==userID).order_by(desc(Task.created_at)).all()
-#     data = get_data(tasks, TaskSchema, request=request, many=True)
-#     return jsonify(data), HTTPStatus.OK
+
+@api_blueprint.route('/reporterTasks', methods=['GET'])
+def reporter_tasks():
+    userID = current_user.id
+    tasks = Task.query.filter(Task.reporter_id==userID).order_by(desc(Task.created_at)).all()
+    data = get_data(tasks, TaskSchema, request=request, many=True)
+    return jsonify(data), HTTPStatus.OK
 
 @api_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
 def get_performance(userID):
