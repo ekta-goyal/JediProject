@@ -1,12 +1,13 @@
 var BASE_URL = 'http://127.0.0.1:5000'
 var Item = ({ id, name }) => {
     $.get(BASE_URL+`/api/v1/team/${id}/banner`,(data, status)=>{
-        const link = data["link"]
-        console.log("Adding...")
-        $('.each-item').add(`
-<div id="team${id}">
+        const link = data["link"];
+        const color = data["color"];
+        console.log(link);
+        $('.each-item').append(`
+<div id="${id}" onclick="onclick_load_team(this);">
   <a href="#">
-    <img class="team-img" src="${link}", alt="${id}"/>
+    <img class="team-img" src="${link}" alt=""/>
     <h5>${name}</h5>
   </a>
 </div>`);
@@ -61,22 +62,41 @@ var set_drag_on_all = () => {    const listItems = document.querySelectorAll('.l
     }
 }
 
+function onclick_load_team(elem) {
+    console.log($(elem).get(0));
+    const id = $(elem).get(0).id;
+    const url = BASE_URL + `/api/v1/team/${id}?only=description,id,members.name,members.designation,name,tasks.actual_end_date,tasks.assignee.name,tasks.attachments,tasks.created_at,tasks.description,tasks.expected_end_date,tasks.id,tasks.modified_at,tasks.modified_by,tasks.priority,tasks.reporter.id,tasks.reporter.name,tasks.start_date,tasks.task_status,tasks.title`;
+    $.get(url,(data, status) =>{
+        $('#team-title').text(data["name"]);
+        $('#team-description').text(data["description"]);
+        var status=data["tasks"];
+        console.log(status);
+    });
+
+};
 
 $(document).ready(function(){
-    $.get(BASE_URL + '/api/v1/teams?only=id,name,uri', (data, status)=>{
-        data.map(Item)
-    });
-    $("button").click(function(){
-        $("#div1").load("demo_test.txt");
+    $.get(BASE_URL + '/api/v1/teams?only=id,name', (data, status)=>{
+        data.map(Item);
     });
 
-    $("button").click(function(){
-        $("#div1").load("demo_test.txt", function(responseTxt, statusTxt, xhr){
-          if(statusTxt == "success")
-            alert("External content loaded successfully!");
-          if(statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        });
-    });
     set_drag_on_all();
 });
+
+function search()
+{
+    let input = document.getElementById('searchbar').value
+    input=input.toLowerCase();
+    let x=document.getElementsByClassName('animals');
+
+    for(let i=0;i<x.length;i++)
+    {
+        if(!x[i].innerHTML.toLowerCase().includes(input)) {
+            x[i].style.display="none";
+        }
+        else{
+            x[i].style.display="list-item";
+        }
+    }
+
+}

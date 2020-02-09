@@ -24,6 +24,23 @@
         </nav>
         <a href="#" class="cta"><button>Logout</button></a>
       </header>
+    <div id="sidebar">
+      <input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Search...">
+      <button id="addbutton" >Add</button>
+      <ul id="list">
+        <li class="animals">cat</li>
+        <li class="animals">dog</li>
+        <li class="animals">hvcds</li>
+        <li class="animals">cbdn</li>
+        <li class="animals">jkdn</li>
+        <li class="animals">hiw</li>
+        <li class="animals">y8iwh</li>
+        <li class="animals">nkx</li>
+        <li class="animals">ojpxml</li>
+        <li class="animals">lnx.</li>
+        <li class="animals">jbx</li>
+      </ul>
+    </div>
     <div id="team">
       <div class="each-item">
         <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>random 1</h5></a></div>
@@ -31,14 +48,14 @@
     </div>
     <div id="mainapp">
       <div class="team-details">
-        <h1>Title</h1>
-        <p>Some Random Paragraph<br /> hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
+        <h1 id="team-title">Title</h1>
+        <p id="team-description">Some Random Paragraph hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
       </div>
       <div class="app">
         <div class="lists">
           <div class="swimlane">
-            <h2>TODO</h2>
-            <div class="list">
+            <h2 >TODO</h2>
+            <div class="list" id="todo">
               <div class="list-item" draggable="true">List Item 1</div>
               <div class="list-item" draggable="true">List Item 2</div>
               <div class="list-item" draggable="true">List Item 3</div>
@@ -55,7 +72,7 @@
           </div>
           <div class="swimlane">
             <h2>DOING</h2>
-            <div class="list">
+            <div class="list" id="doing">
               <div class="list-item" draggable="true">List Item 1</div>
               <div class="list-item" draggable="true">List Item 2</div>
               <div class="list-item" draggable="true">List Item 3</div>
@@ -66,7 +83,7 @@
           </div>
           <div class="swimlane">
             <h2>DONE</h2>
-            <div class="list">
+            <div class="list" id="done">
               <div class="list-item" draggable="true">List Item 1</div>
               <div class="list-item" draggable="true">List Item 2</div>
               <div class="list-item" draggable="true">List Item 3</div>
