@@ -1,6 +1,6 @@
 import os
 
-from flask import request, redirect, url_for, render_template, Blueprint, jsonify
+from flask import request, redirect, url_for, render_template, Blueprint
 from itsdangerous import SignatureExpired, BadTimeSignature
 from http import HTTPStatus
 from flask_login import login_required,current_user
@@ -97,25 +97,6 @@ def update_status(taskId):
     db.session.commit()
     return '', HTTPStatus.OK
 
-@html_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
-def get_performance(userID):
-    tasks = Task.query.filter(Task.task_status=="DONE",Task.assignee_id==userID).all()
-    print(type(tasks))
-    total_cnt = len(tasks)
-    print("--------------------------- "+str(total_cnt))
-    cnt=0
-    percentage = 0
-    if total_cnt > 0:
-        for eachtask in tasks:
-            print(eachtask.actual_end_date)
-            print(eachtask.title)
-            if eachtask.actual_end_date != None:
-                print("-----inside-----")
-                if eachtask.expected_end_date <= eachtask.actual_end_date:
-                    cnt = cnt+1
-        percentage = (cnt*100)/total_cnt
-    print(percentage,total_cnt,cnt)
-    return jsonify([{'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}]), HTTPStatus.OK
 
 
 

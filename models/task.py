@@ -52,9 +52,16 @@ class TaskSchema(Schema):
     modified_at = fields.DateTime()
     deleted_by = fields.String()
     deleted_at = fields.DateTime()
+    assignee_name = fields.Method("get_assignee_name")
+    reporter_name = fields.Method("get_reporter_name")
 
     def get_priority(self, obj):
         return obj.priority.code
 
     def get_status(self, obj):
         return obj.task_status.code
+
+    def get_assignee_name(self, obj):
+        return obj.assignee.name
+    def get_reporter_name(self, obj):
+        return obj.assignee.name
