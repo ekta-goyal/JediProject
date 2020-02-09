@@ -1,4 +1,4 @@
-var BASE_URL = 'http://127.0.0.1:5000'
+var BASE_URL = ''
 var Item = ({ id, name }) => {
     $.get(BASE_URL+`/api/v1/team/${id}/banner`,(data, status)=>{
         const link = data["link"];
