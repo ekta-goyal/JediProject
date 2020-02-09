@@ -115,7 +115,7 @@ def get_performance(userID):
                     cnt = cnt+1
         percentage = (cnt*100)/total_cnt
     print(percentage,total_cnt,cnt)
-    return {'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt}
+    return ({'percentage':percentage,"total_cnt":total_cnt,"cnt":cnt},)
 
 
 
