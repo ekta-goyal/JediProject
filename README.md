@@ -3,4 +3,5 @@
 
 ---
 
--	[![build status badge](https://img.shields.io/travis/docker-library/python/master.svg?label=Travis%20CI)](https://travis-ci.org/nitheesh-me/JediProject)
+- [![Build Status](https://travis-ci.com/nitheesh-me/JediProject.svg?branch=master)](https://travis-ci.com/nitheesh-me/JediProject)
+
