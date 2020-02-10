@@ -127,7 +127,7 @@ $(document).ready(function(){
     $.get(BASE_URL + '/api/v1/teams?only=id,name', (data, status)=>{
         data.map(Item);
     });
-    $.get(BASE_URL + '/reporterTask/', (data, status)=>{
+    $.get(BASE_URL + '/api/v1/reporterTasks/', (data, status)=>{
         data.map(Item);
     });
 
