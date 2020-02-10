@@ -31,31 +31,23 @@
       <span><input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Search..."></span>
       <span><button id="addbutton" onclick='on("new");'>Add</button></span>
       <ul id="list" style="list-style-type:none">
-        <li class="animals"><a href="">cat</a></li>
-        <li class="animals"><a href="">dog</a></li>
-        <li class="animals"><a href="">jzkj</a></li>
-        <li class="animals"><a href="">cjdjb</a></li>
-        <li class="animals"><a href="">jkbxk</a></li>
-        <li class="animals"><a href="">yihuh</a></li>
-        <li class="animals"><a href="">jhgxjk</a></li>
-        <li class="animals"><a href="">ugxie</a></li>
-        <li class="animals"><a href="">hkdjb</a></li>
-        <li class="animals"><a href="">opj;n</a></li>
-        <li class="animals"><a href="">iuekbj </a></li>
-        <li class="animals"><a href="">ihxkjbs</a></li>
-        <li class="animals"><a href="">cjbkdm</a></li>
-        <li class="animals"><a href="">ucdbjm</a></li>
+        {% for task in user.as_reporter %}
+        <li class="reporter_task"><a href="{{url_for('api_blueprint.get_team_tasks',team_id=task.team.id, task_id=task.id)}}">{{task.team.name}} / {{task.title}}</a></li>
+        {% endfor %}
       </ul>
     </div>
     <div id="team">
       <div class="each-item">
-        <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>random 1</h5></a></div>
+        <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>My tasks</h5></a></div>
+        {% for team in user.teams %}
+          <div><a href="#team{{team.id}}"><img class="team-img" src="#" style="background-color:'#aaaaaa'"/><h5>{{team.name}}</h5></a></div>
+        {% endfor %}
       </div>
     </div>
     <div id="mainapp">
       <div class="team-details">
-        <h1 id="team-title">Title</h1>
-        <p id="team-description">Some Random Paragraph hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
+        <h1 id="team-title">My tasks</h1>
+        <p id="team-description">These are all my tasks, that are yet to be completed</p>
       </div>
       <div class="app">
         <div class="lists">

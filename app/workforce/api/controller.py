@@ -30,6 +30,7 @@ def get_data(obj, schema, request=None, many=False):
 def login():
     username = request.form["username"]
     password = request.form["password"]
+    print(username, password)
     user = User.query.filter_by(username=username, type='regular-user').first()
     
     if user:
@@ -141,19 +142,24 @@ def get_team_users(team_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/tasks', methods=['GET'])
+@api_blueprint.route('/team/<int:team_id>/task/<int:task_id>', methods=['GET'])
 @login_required
-def get_team_tasks(team_id):
-    status = request.args.get('status', '')
-    if status in ["my"]:
-        id = current_user.get_id()
-        tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
-        data = get_data(tasks, TaskSchema, request=request, many=True)
-    elif status:
-        tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
-        data = get_data(tasks, TaskSchema, request=request, many=True)
+def get_team_tasks(team_id, task_id=None):
+    if task_id:
+        task = Task.query.filter_by(id=task_id).join(Team).filter_by(id=team_id).first_or_404()
+        data = get_data(task, TaskSchema, request=request, many=False)
     else:
-        team = Team.query.filter_by(id=team_id).first_or_404()
-        data = get_data(team.tasks, TaskSchema, request=request, many=True)
+        status = request.args.get('status', '')
+        if status in ["my"]:
+            id = current_user.get_id()
+            tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
+            data = get_data(tasks, TaskSchema, request=request, many=True)
+        elif status:
+            tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
+            data = get_data(tasks, TaskSchema, request=request, many=True)
+        else:
+            team = Team.query.filter_by(id=team_id).first_or_404()
+            data = get_data(team.tasks, TaskSchema, request=request, many=True)
     if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
