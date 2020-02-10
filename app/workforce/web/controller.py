@@ -21,7 +21,8 @@ html_blueprint = Blueprint('html_blueprint', __name__,
 
 @html_blueprint.route('/', methods=['GET'])
 def index():
-    return render_template('login.html')
+    path = request.args.get('next',None);
+    return render_template('login.html',path=path)
     
 @html_blueprint.route('/dashboard', methods=['GET'])
 @login_required
@@ -30,7 +31,7 @@ def home():
     if user:
         return render_template('home.html',user=user)
     else:
-        return '', HTTPStatus.BAD_REQUEST
+        return redirect(url_for('html_blueprint.index'))
 
 @html_blueprint.route('/debug-sentry')
 def trigger_error():
@@ -96,8 +97,3 @@ def update_status(taskId):
     updatetask.task_status = statusInfo
     db.session.commit()
     return '', HTTPStatus.OK
-
-
-
-
-

@@ -9,7 +9,7 @@ from sqlalchemy import desc
 from datetime import date
 # from models import select
 
-api_blueprint = Blueprint('api_blueprint', __name__)
+api_blueprint = Blueprint('api_blueprint', __name__, template_folder="templates")
 
 def get_data(obj, schema, request=None, many=False):
     exclude = tuple(filter(None, request.args.get('exclude', '').split(',')))
@@ -30,6 +30,7 @@ def get_data(obj, schema, request=None, many=False):
 def login():
     username = request.form["username"]
     password = request.form["password"]
+    print(username, password)
     user = User.query.filter_by(username=username, type='regular-user').first()
     
     if user:
@@ -53,13 +54,29 @@ def login():
 @api_blueprint.route('/accounts/logout', methods=['GET'])
 def logout():
     logout_user()
+    if request.args.get('web'):
+        return redirect(url_for('html_blueprint.index'))
     return '', HTTPStatus.NO_CONTENT
 
-
+@api_blueprint.route('/accounts/forget', methods=['POST'])
+def forget():
+    from app.crypt import get_time_token
+    from app.mail import send_async_email
+    try:
+        user_name = request.form['username']
+        token = get_time_token(user_name, salt="forget-password")
+        subject = "Password Reset | Request for Password Reset"
+        body = token
+        html = render_template('forget_mail.html', token=token)
+        send_async_email(current_app._get_current_object(),[user_name], subject, body, html)
+        return '', HTTPStatus.OK
+    except Exception as e:
+        print(e)
+        return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/users', methods=['GET'])
 @api_blueprint.route('/user/<int:id>', methods=['GET'])
-#@login_required
+@login_required
 def get_user(id=None):
     if id:
         user = User.query.filter_by(id=id, type='regular-user', is_verified=1).first_or_404()
@@ -74,7 +91,7 @@ def get_user(id=None):
 
 @api_blueprint.route('/teams', methods=['GET'])
 @api_blueprint.route('/team/<int:id>', methods=['GET'])
-#@login_required
+@login_required
 def get_team(id=None):
     if id:
         team = Team.query.filter_by(id=id).first_or_404()
@@ -88,7 +105,7 @@ def get_team(id=None):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/banner', methods=['GET'])
-#@login_required
+@login_required
 def get_team_banner(team_id):
     rs = db.engine.execute(f'SELECT team_id,user_id,is_verified,color,image_index,image_link FROM User_Team_Mapping where user_id={current_user.id} AND team_id={team_id}')
     team_id,user_id,is_verified,color,image_index,image_link = [None]*6
@@ -105,7 +122,7 @@ def get_team_banner(team_id):
     }), HTTPStatus.OK
 
 @api_blueprint.route('/user/<int:user_id>/teams', methods=['GET'])
-#@login_required
+@login_required
 def get_user_teams(user_id):
     user = User.query.filter_by(id=user_id, type='regular-user', is_verified=1).first_or_404()
     data = get_data(user.teams, TeamSchema, request=request, many=True)
@@ -115,7 +132,7 @@ def get_user_teams(user_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/users', methods=['GET'])
-#@login_required
+@login_required
 def get_team_users(team_id):
     team = Team.query.filter_by(id=team_id).first_or_404()
     data = get_data(team.users, UserSchema, request=request, many=True)
@@ -125,19 +142,24 @@ def get_team_users(team_id):
         return '', HTTPStatus.BAD_REQUEST
 
 @api_blueprint.route('/team/<int:team_id>/tasks', methods=['GET'])
-#@login_required
-def get_team_tasks(team_id):
-    status = request.args.get('status', '')
-    if status in ["my"]:
-        id = current_user.get_id()
-        tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
-        data = get_data(tasks, TaskSchema, request=request, many=True)
-    elif status:
-        tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
-        data = get_data(tasks, TaskSchema, request=request, many=True)
+@api_blueprint.route('/team/<int:team_id>/task/<int:task_id>', methods=['GET'])
+@login_required
+def get_team_tasks(team_id, task_id=None):
+    if task_id:
+        task = Task.query.filter_by(id=task_id).join(Team).filter_by(id=team_id).first_or_404()
+        data = get_data(task, TaskSchema, request=request, many=False)
     else:
-        team = Team.query.filter_by(id=team_id).first_or_404()
-        data = get_data(team.tasks, TaskSchema, request=request, many=True)
+        status = request.args.get('status', '')
+        if status in ["my"]:
+            id = current_user.get_id()
+            tasks = Task.query.filter_by(assignee_id=id).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
+            data = get_data(tasks, TaskSchema, request=request, many=True)
+        elif status:
+            tasks = Task.query.filter_by(task_status=status).join(Team).filter_by(id=team_id).order_by(desc(Task.expected_end_date)).all()
+            data = get_data(tasks, TaskSchema, request=request, many=True)
+        else:
+            team = Team.query.filter_by(id=team_id).first_or_404()
+            data = get_data(team.tasks, TaskSchema, request=request, many=True)
     if data != 'error':
         return jsonify(data), HTTPStatus.OK
     else:
@@ -145,7 +167,7 @@ def get_team_tasks(team_id):
 
 
 @api_blueprint.route('/tasks', methods=['GET'])
-# @login_required
+@login_required
 def get_my_tasks():
     status = request.args.get('status', '')
     if status in ["end"]:
@@ -174,6 +196,6 @@ def reporter_tasks():
 
 @api_blueprint.route('/myPerformance/<int:userID>', methods=['GET'])
 def get_performance(userID):
-    user = User.query.filter(id==userID)
+    user = User.query.filter_by(id=userID).all()
     data = get_data(user, UserSchema, request=request, many=True)
     return jsonify(data), HTTPStatus.OK

@@ -12,35 +12,42 @@
         <nav>
           <ul class="nav__links">
             <li>
-              <a href="#">Something 1</a>
+              <a href="#">Vishakha Shah</a>
             </li>
             <li>
-              <a href="#">Something 2</a>
+              <a href="#">Nitheesh Chandra</a>
             </li>
             <li>
-              <a href="#">Something 3</a>
+              <a href="#">Ekta Goyal</a>
             </li>
           </ul>
         </nav>
-        <a href="#" class="cta"><button>Logout</button></a>
+        <div>
+          <a href="/api/v1/accounts/logout" id="user"><button>User</button></a>
+          <a href="/api/v1/accounts/logout?web=1" class="user-profile"><button>Logout</button></a>
+      </div>
       </header>
     <div id="sidebar">
       <span><input id="searchbar" onkeyup="search()" type="text" name="search" placeholder="Search..."></span>
       <span><button id="addbutton" onclick='on("new");'>Add</button></span>
       <ul id="list" style="list-style-type:none">
-        <li class="reporter_task"><a href="">cat</a></li>
-        
+        {% for task in user.as_reporter %}
+        <li class="reporter_task"><a href="{{url_for('api_blueprint.get_team_tasks',team_id=task.team.id, task_id=task.id)}}">{{task.team.name}} / {{task.title}}</a></li>
+        {% endfor %}
       </ul>
     </div>
     <div id="team">
       <div class="each-item">
-        <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>random 1</h5></a></div>
+        <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>My tasks</h5></a></div>
+        {% for team in user.teams %}
+          <div><a href="#team{{team.id}}"><img class="team-img" src="#" style="background-color:'#aaaaaa'"/><h5>{{team.name}}</h5></a></div>
+        {% endfor %}
       </div>
     </div>
     <div id="mainapp">
       <div class="team-details">
-        <h1 id="team-title">Title</h1>
-        <p id="team-description">Some Random Paragraph hvwkdbjckhvdkhcvwdvchvsdlcvwdhlcv ldhsvcv</p>
+        <h1 id="team-title">My tasks</h1>
+        <p id="team-description">These are all my tasks, that are yet to be completed</p>
       </div>
       <div class="app">
         <div class="lists">

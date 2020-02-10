@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Jedi Order Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Latest compiled and minified CSS -->
+    
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+  <link href="{{ url_for('html_blueprint.static', filename='css/index.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-section">
+        <img class="logo" width=100 src="{{ url_for('html_blueprint.static', filename='img/logo_light.png')}}" alt="LOGO">
+        <div class="header">
+            <h1 class="animation a1">
+              {{ user.name }}
+            </h1>
+            <h4 class="animation a2">Welcome. Edit Details</h4>
+        </div>
+        <form class="login" action="{{url_for('verify_blueprint.confirm_email', token=token)}}" method = "POST">
+            <div class="form">
+              <input required type="password" class="form-field animation a4" placeholder="New Password" name="password" minlength="8"/>
+              <input required type="text" class="form-field animation a4" placeholder="Designation" name="designation" value="{{user.designation}}"/>
+              <input required type="text" class="form-field animation a4" placeholder="Contact" name="contact" pattern="[6-9]{1}[0-9]{9}" value="{{user.contact}}"/>
+              <input type="hidden" name="{{ token }}" name="token"/>
+              <input type="submit" class="animation a6" value="LOGIN" />
+            </div>
+        </form>
+      </div>
+        <div class="right-section">
+             <div class="loading"><img class="logo" src="{{url_for('html_blueprint.static', filename='img/logo_light.png')}}" alt="Jedi Order"></div>
+        </div>
+    </div>
+    <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
+    <script src="{{url_for('html_blueprint.static', filename='js/index.css')}}"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script>document.body.classList.add('js-loading');
+      window.addEventListener("load", showPage, false);
+      
+      function showPage() {
+          document.body.classList.remove('js-loading');
+      }
+      
+      function on() {
+        document.getElementById("overlay").style.display = "block";
+      }
+      
+      function off() {
+        if(event.target.id==="overlay"){
+        document.getElementById("overlay").style.display = "none";
+          }
+      }
+    </script>
+  </body>
+</html>

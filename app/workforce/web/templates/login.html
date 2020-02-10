@@ -5,8 +5,27 @@
     
   <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
   <link href="{{ url_for('html_blueprint.static', filename='css/index.css') }}" rel="stylesheet">
+  <style>
+    #admin {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      padding: 8px 3px;
+      background: linear-gradient(to right, #A4123E88 0%, #123EA588 100%);
+      z-index: 2;
+      border-radius: 5px;
+    }
+    #admin:hover {
+      background: linear-gradient(to right, #A4123Ecc 0%, #123EA5cc 100%);
+    }
+    #admin a{
+      text-decoration: none;
+      color: #dfdfdf;
+    }
+  </style>
   </head>
   <body>
+    <div id="admin"><a href="/admin">Admin</a></div>
     <div class="container">
       <div class="left-section">
         <img class="logo" width=100 src="{{ url_for('html_blueprint.static', filename='img/logo_light.png')}}" alt="LOGO">
@@ -14,7 +33,23 @@
             <h1 class="animation a1">
               {{ current_user.name }}
             </h1>
-            <h4 class="animation a2">Log in for entering your dashboard.<br />(Not you? do the same)</h4>
+            {% if  current_user.type == 'admin' %}
+              <h4 class="animation a2">Oh..! You are.. beep.. beep.. Admin
+            {% else %}
+              {%if not request.args.get('error') %}
+                <h4 class="animation a2">Log in for entering your dashboard.
+              {% elif request.args.get('info', False) %}
+              <h3 class="animation a2" style="color: seagreen;">{{request.args.get('info')}}</h3>
+              {% else %}
+                  <h3 class="animation a2" style="color: indianred;">Logout from current user</h3>
+              {% endif %}
+            {% endif %}
+            {% if current_user.name %}
+                <br /><h4 class="animation a3">(Not you?{%if not request.args.get('error') %}do the same
+                {% else %}Contact {{current_user.name}}
+                {% endif %}
+                )</h4>
+            {% endif %}
         </div>
         <form class="login" action="{{url_for('api_blueprint.login', only='id')}}" method = "POST">
             <div class="form">
@@ -23,22 +58,24 @@
               <p class="animation a5"><a href="#" onclick="on()">Forgot Password</a></p>
               <input type="submit" class="animation a6" value="LOGIN" />
               <p id="error" class="error_css">Username or password Error</p>
+              <p class="error_css">Username or password Error</p>
             </div>
         </form>
       </div>
         <div class="right-section">
-             <div class="loading">Under Construction</div>
+             <div class="loading"><img class="logo" src="{{url_for('html_blueprint.static', filename='img/logo_light.png')}}" alt="Jedi Order"></div>
         </div>
     </div>
         <div id="overlay" onclick="off()">
         <center>
-            <form class="forget" method = "POST" >
-                <h4 class="animation a1-new">Enter Username or Email, You will get a password via mail.</h4>
+            <form class="forget" action="{{url_for('api_blueprint.forget')}}"  method = "POST" >
+                <h4 class="animation a1-new">Enter Email, You will get a password via mail.</h4>
                 <div class="form">
                   <input required type="text" class="form-field animation a2-new" placeholder="Username(Email)" name="username"/>
                   <input type="submit" class="animation a5-new" value="SUBMIT" />
                   <p id="sent" class="sent_css">Mail sent</p>
                 </div>
+
             </form>
         </center>
     </div>
@@ -57,7 +94,7 @@
       {% endif %}
     </div> -->
     <script   src="https://code.jquery.com/jquery-3.4.1.min.js"   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="   crossorigin="anonymous"></script>
-    <script src="{{url_for('html_blueprint.static', filename='js/index.css')}}"></script>
+    <script src="{{url_for('html_blueprint.static', filename='js/index.js')}}"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script>document.body.classList.add('js-loading');
       window.addEventListener("load", showPage, false);
@@ -78,7 +115,11 @@
                   data: $(this).serialize(),
                   statusCode: {
                       200: function() {
-                        window.location.href = "{{url_for('html_blueprint.home')}}";
+                        {% if path==None %}
+                          window.location.href = "{{url_for('html_blueprint.home')}}";
+                        {% else %}
+                          window.location.href = "{{path}}";
+                        {% endif %}
                       },
                       401: function() {
                           document.getElementById("error").style["display"] = "block";
@@ -94,9 +135,10 @@
               e.preventDefault();
               document.getElementById("sent").style["display"] = "block";
               document.getElementById("sent").innerHTML = "Mail Sending...";
+              var url = $(this).attr('action');
               $.ajax({
                   type: 'post',
-                  url: 'forget',
+                  url: url,
                   data: $(this).serialize(),
                   statusCode: {
                       200: function() {

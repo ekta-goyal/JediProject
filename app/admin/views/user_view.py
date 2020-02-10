@@ -1,5 +1,5 @@
 from flask_admin.contrib.sqla import ModelView
-from flask import redirect, url_for, current_app
+from flask import redirect, url_for, current_app, render_template
 from flask_login import current_user
 from wtforms.validators import DataRequired
 
@@ -35,7 +35,7 @@ class UserView(ModelView, ExtraCss, TimeManager):
             return False
 
     def inaccessible_callback(self, name, **kwargs):
-        if current_user.type == 'user':
+        if current_user and current_user.type == 'user':
             return redirect(url_for('html_blueprint.index'))
         return redirect(url_for('admin_html_blueprint.admin_login'))
 
@@ -43,8 +43,8 @@ class UserView(ModelView, ExtraCss, TimeManager):
         if is_created:
             from app.crypt import get_time_token
             token = get_time_token(model.username, salt="user-create")
-            subject = "New User"
-            body = "This is body"
-            html = f"""<!DOCTYPE html><html><body><a style='color="red"'>{token}</a></body></html>"""
+            subject = "Invitation | Welcone to Jedi Order | Simple tool to track and post tasks accross organization."
+            body = token
+            html = render_template('verify_email.html', token=token)
             send_async_email(current_app._get_current_object(),[model.username], subject, body, html)
             #Thread(target=send_async_email, args=(current_app,msg)).start()

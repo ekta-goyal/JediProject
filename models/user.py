@@ -8,6 +8,7 @@ from .utils import At
 from app.crypt import bcrypt
 from . import UsersTeamMapping
 from marshmallow import Schema, fields, post_load, validates, ValidationError
+from flask import redirect, request, url_for
 
 class User(db.Model, UserMixin, At):
     __tablename__ = 'User'
@@ -52,6 +53,9 @@ class User(db.Model, UserMixin, At):
 def load_user(user_id):
     return User.query.get(user_id)
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('html_blueprint.index', next = request.path))
 
 class UserSchema(Schema):
     id = fields.Integer()
