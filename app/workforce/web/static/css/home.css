@@ -305,11 +305,21 @@ header a button:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(138, 143, 190, 0.562);
+  background-color: white;
   z-index: 999;
   cursor: pointer;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  color: black;
+}
+
+#overlay #details {
+  color: white;
+  background-color: black;
+}
+
+#footer {
+  font-size: 10px;
 }
 /*# sourceMappingURL=home.css.map */

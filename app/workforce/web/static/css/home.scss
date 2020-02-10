@@ -108,6 +108,7 @@ header {
         padding-left: 8px;
         overflow-y: auto;
         width:100%;
+
         .reporter_task{
             display:list-item;
         }
@@ -233,8 +234,18 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(138, 143, 190, 0.562);
+    background-color:white;
     z-index: 999;
     cursor: pointer;
     align-items: center;
+    color:black;
+
+    #details {
+        color:white;
+        background-color: black;
+    }
+}
+
+#footer{
+    font-size: 10px;
 }
