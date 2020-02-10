@@ -40,7 +40,7 @@
       <div class="each-item">
         <div><a href="#"><img class="team-img" src="https://picsum.photos/100/100?random=1"/><h5>My tasks</h5></a></div>
         {% for team in user.teams %}
-          <div><a href="#team{{team.id}}"><img class="team-img" src="#" style="background-color:'#aaaaaa'"/><h5>{{team.name}}</h5></a></div>
+          <div id="{{team.id}}" onclick="onclick_load_team(this);"><a href="#team{{team.id}}"><img class="team-img" src="#" style="background-color:'#aaaaaa'"/><h5>{{team.name}}</h5></a></div>
         {% endfor %}
       </div>
     </div>
@@ -54,20 +54,32 @@
           <div class="swimlane">
             <h2 >TODO</h2>
             <div class="list" id="TODO">
-              <div class="list-item" draggable="true">List Item 1</div>
+              {% for task in user.as_assignee %}
+                {% if task.task_status == "TODO" %}
+                <div class="list-item" draggable="true">{{task.title}}</div>
+                {% endif %}
+              {% endfor %}
              
             </div>
           </div>
           <div class="swimlane">
             <h2>DOING</h2>
             <div class="list" id="DOING">
-              <div class="list-item" draggable="true">List Item 1</div>
+              {% for task in user.as_assignee %}
+                {% if task.task_status == "DOING" %}
+                <div class="list-item" draggable="true">{{task.title}}</div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
           <div class="swimlane">
             <h2>DONE</h2>
             <div class="list" id="DONE">
-              <div class="list-item" draggable="true">List Item 1</div>
+              {% for task in user.as_assignee %}
+                {% if task.task_status == "TODO" %}
+                  <div class="list-item" draggable="true">{{task.title}}</div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>

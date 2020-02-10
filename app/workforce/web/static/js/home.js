@@ -109,24 +109,24 @@ function on(task)
     console.log("IN ON");
     task_obj = team_data["tasks"][index];
     console.log(task_obj);
-    $('#id1').html(task_obj["title"]);
-    $('#id2').html(task_obj["description"]);
-    $('#id3').text(task_obj["task_status"]);
-    $('#id4').text(task_obj["reporter"]["name"]);
-    $('#id5').text(task_obj["assignee"]["name"]);
-    $('#id6').text(task_obj["start_date"]);
-    $('#id7').text(task_obj["expected_end_date"]);
-    $('#id8').text(task_obj["priority"]);
-    $('#id9').text(task_obj["actual_end_date"]);
+        $('#id1').html(task_obj["title"]);
+        $('#id2').html(task_obj["description"]);
+        $('#id3').text(task_obj["task_status"]);
+        $('#id4').text(task_obj["reporter"]["name"]);
+        $('#id5').text(task_obj["assignee"]["name"]);
+        $('#id6').text(task_obj["start_date"]);
+        $('#id7').text(task_obj["expected_end_date"]);
+        $('#id8').text(task_obj["priority"]);
+        $('#id9').text(task_obj["actual_end_date"]);
     }
     $("#overlay").toggle();
 
 };
 
 $(document).ready(function(){
-    $.get(BASE_URL + '/api/v1/teams?only=id,name', (data, status)=>{
-        data.map(Item);
-    });
+    //$.get(BASE_URL + '/api/v1/teams?only=id,name', (data, status)=>{
+    //    data.map(Item);
+    //});
     $.get(BASE_URL + '/reporterTask/', (data, status)=>{
         data.map(Item);
     });
